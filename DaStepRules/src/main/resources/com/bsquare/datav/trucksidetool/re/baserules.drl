@@ -1,0 +1,5 @@
+package com.bsquare.datav.trucksidetool.re;
+
+query "StepOrderQuery"
+    nextSteps : NextStep()
+end

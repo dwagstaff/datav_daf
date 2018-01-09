@@ -1,0 +1,24 @@
+package com.bsquare.datav.trucksidetool.re;
+
+import java.lang.Number;
+
+rule "TestRule2"
+	dialect "mvel"
+	when
+		exists (DTCIn( code == "P0016" )) 
+		exists (DTCIn( code == "P0017" )) 
+		exists (DTCIn( code == "P0045" )) 
+	then
+		NextStep fact0 = new NextStep();
+		fact0.setStepId( "P0017/M042136" );
+		fact0.setScore( 10 );
+		insert( fact0 );
+		NextStep fact1 = new NextStep();
+		fact1.setStepId( "P0017/DI" );
+		fact1.setScore( 50 );
+		insert( fact1 );
+		NextStep fact2 = new NextStep();
+		fact2.setStepId( "P0017/Overview" );
+		fact2.setScore( 0 );
+		insert( fact2 );
+end
