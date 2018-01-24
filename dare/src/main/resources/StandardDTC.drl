@@ -1,0 +1,88 @@
+//created on: Jan 21, 2018
+package com.bsquare.datav.da
+import com.bsquare.datav.da.PossibleStep;
+import com.bsquare.datav.da.DTC;
+import com.bsquare.datav.da.DtcClassification;
+import com.bsquare.datav.da.AdjustScore;
+
+// Query to Return a list of all possible steps
+query "Steps"
+    s: PossibleStep(  )
+end
+
+// Query to return a list of all Adjustments made
+query "Adjustments"
+    a: AdjustScore(  )
+end
+
+
+rule "Adjust Step Scores"
+    salience -10
+    no-loop 
+    when
+        AdjustScore( $stepId:stepId, $adjustment:adjustment   )
+        $ps: PossibleStep( stepId == $stepId, $currentScore:score  )
+    then
+        modify($ps) {
+          setScore($currentScore + $adjustment);  
+        }
+end
+
+// If a step is completed, then set it's score to -1 to lock it out
+rule "Rule Completed"
+    when
+        StepPerformed( $stepID: stepId  )
+        $ps: PossibleStep( stepId == $stepID, score > 0.0  )
+    then
+        modify($ps) {
+            setScore(-1.0);
+        };
+        insert(new AdjustScore($stepID, -1.0, "Step Completed"));
+end
+
+
+// Boost score of steps which support a Job Code we are interested in
+rule "Boost score of steps which are diagnostics for predicted job codes"
+    when
+        JobC
+    then
+end
+
+        
+
+rule "Add Rationality Adjustment"
+    when
+        DTC( $dtc:symptomId  )
+        DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Rationality )
+        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+    then
+        insertLogical( new AdjustScore($stepId, 5.0, "DTC is " + $class) );
+end
+        
+rule "Add Plausibility Adjustment"
+    when
+        DTC( $dtc:symptomId  )
+        DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Plausibility )
+        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+    then
+        insertLogical( new AdjustScore($stepId, 4.0, "DTC is " + $class) );
+end
+
+
+rule "Add Communication Adjustment"
+    when
+        DTC( $dtc:symptomId  )
+        DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Communication )
+        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+    then
+        insertLogical( new AdjustScore($stepId, 3.0, "DTC is " + $class) );
+end
+
+rule "Add Event Adjustment"
+    when
+        DTC( $dtc:symptomId  )
+        DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Event )
+        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+    then
+        insertLogical( new AdjustScore($stepId, 2.0, "DTC is " + $class) );
+end

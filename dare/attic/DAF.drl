@@ -1,0 +1,22 @@
+//created on: Jan 13, 2018
+package com.bsquare.datav
+
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+
+rule "Increase score of a step"
+    dialect "mvel" 
+    when
+        $ps: PossibleStep( $psid:stepID  )
+        NextStep(stepID == $psid, $increase:score  )        
+    then
+        modify($ps) {
+           score *=  $increase;
+        }
+end
+
