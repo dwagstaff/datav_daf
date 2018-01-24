@@ -1,0 +1,1096 @@
+package com.bsquare.datav.da;
+import com.bsquare.datav.trucksidetool.re.JobCodeDiagnostics;
+import com.bsquare.datav.trucksidetool.re.JobCode;
+import com.bsquare.datav.trucksidetool.re.DiagnosticJob;
+import com.bsquare.datav.da.DiagnosticJobToStep;
+rule "Insert Cause Job Code Diagnostics"
+	when
+	then
+// Row 1: P0046 - Step 1A - Check DTC status of P0046.�
+// Row 2: P0046 - Step 1B - Determine cause of the P0046 activation.�
+// Row 3: P0046 - Step 2A - Check the VTG turbocharger actuator power supply.�
+		insert(new JobCode("H 1409 430269 001 000","replace VTG turbocharger actuator (Inlet/exhaust elem.)"));
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 055 120"));
+		insert(new JobCode("H 1449 461303 001 000","replace engine wiring harness J3 C (Elec.syst. 2 engine)"));
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1409 430269 055 120"));
+		insert(new DiagnosticJob("H 1409 430269 055 120","Measure Electronic unit VTG actuator power supply and earth"));
+		insert(new DiagnosticJobToStep("H 1409 430269 055 120","P0046/2A"));
+// Row 4: P0046 - Step 3A - Check the VTG turbocharger sector gear travel.�
+		insert(new JobCode("H 1409 247202 001 000","replace turbocharger with VTG (Inlet/exhaust elem.)"));
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 247202 010 245"));
+		insert(new DiagnosticJob("H 1409 247202 010 245","Check Turbocharger with VTGmechanism"));
+		insert(new DiagnosticJobToStep("H 1409 247202 010 245","P0046/3A"));
+// Row 5: P0046 - Step 3B - Check the VTG turbocharger actuator output gear and sector gear for damage.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 245"));
+// Job Code H 1409 247202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 430269 010 245"));
+		insert(new DiagnosticJob("H 1409 430269 010 245","Check Electronic unit VTG actuator mechanism"));
+		insert(new DiagnosticJobToStep("H 1409 430269 010 245","P0046/3B"));
+// Row 6: P0046 - Step 3C - Reinstall the VTG turbo actuator.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 067 000"));
+		insert(new DiagnosticJob("H 1409 430269 067 000","Use Electronic unit VTG actuator"));
+		insert(new DiagnosticJobToStep("H 1409 430269 067 000","P0046/3C"));
+// Row 7: P0046 - Step 4A - Perform test drive and check for DTCs.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 0000 000000 048 805"));
+		insert(new DiagnosticJob("H 0000 000000 048 805","Perform test drive"));
+		insert(new DiagnosticJobToStep("H 0000 000000 048 805","P0046/4A"));
+// Row 8: P0046 - Step 5A - Clear DTCs.�
+		insert(new DiagnosticJob("H 1444 430226 072 000","Reset Electronic unit Engine control"));
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P0046/5A"));
+// Row 9: P0087/P1087/Check low pressure fuel system - Step 1A - Visually inspection of the low-pressure fuel system�
+		insert(new JobCode("H 1152 37920X 001 13X","replace X hand fuel tank, X fastening straps (Fuel tank)"));
+		insert(new JobCodeDiagnostics("H 1152 37920X 001 13X","H 1410 000000 010 027"));
+		insert(new JobCode("H 1153 269302 051 025","repair fuel leakage hose larger than 16mm (Fuel lines)"));
+		insert(new JobCodeDiagnostics("H 1153 269302 051 025","H 1410 000000 010 027"));
+		insert(new JobCode("H 1153 269301 051 025","repair fuel leakage hose smaller than 15mm (Fuel lines)"));
+		insert(new JobCodeDiagnostics("H 1153 269301 051 025","H 1410 000000 010 027"));
+		insert(new JobCode("H 1410 285413 001 000","replace fuel pipe from tank to fuel lift pump (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 285413 001 000","H 1410 000000 010 027"));
+		insert(new JobCode("H 1410 285412 001 000","replace fuel tank return pipe (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 285412 001 000","H 1410 000000 010 027"));
+		insert(new JobCode("H 1410 285411 001 000","Replace fuel pipe from hand priming pump to fuel lift pump (Fuel lines)"));
+		insert(new JobCodeDiagnostics("H 1410 285411 001 000","H 1410 000000 010 027"));
+		insert(new JobCode("H 1410 285403 001 000","Replace fuel pipe from fuel lift pump to filter  (Fuel lines)"));
+		insert(new JobCodeDiagnostics("H 1410 285403 001 000","H 1410 000000 010 027"));
+		insert(new DiagnosticJob("H 1410 000000 010 027","Check Fuel system visually"));
+		insert(new DiagnosticJobToStep("H 1410 000000 010 027","P0087/P1087/Check low pressure fuel system/1A"));
+// Row 10: P0087/P1087/Check low pressure fuel system - Step 2A - Check the fuel pressure after the manual fuel lift pump (P2)�
+		insert(new DiagnosticJob("H 1410 473302 010 209","Check Fuel lift pump, manual pressure"));
+		insert(new DiagnosticJobToStep("H 1410 473302 010 209","P0087/P1087/Check low pressure fuel system/2A"));
+// Row 11: P0087/P1087/Check low pressure fuel system - Step 2B - Check the fuel pressure before the manual fuel lift pump (P4)�
+		insert(new JobCode("H 1410 401299 090 062","check/clean fuel strainer (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 401299 090 062","H 1410 473302 010 209"));
+		insert(new JobCode("H 1410 401299 001 062","replace fuel strainer (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 401299 001 062","H 1410 473302 010 209"));
+// Diagnostic Code H 1410 473302 010 209 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 473302 010 209","P0087/P1087/Check low pressure fuel system/2B"));
+// Row 12: P0087/P1087/Check low pressure fuel system - Step 2C - Check the fuel supply from tank to manual fuel lift pump for clogging�
+// Job Code H 1153 269302 051 025 has already been defined
+		insert(new JobCodeDiagnostics("H 1153 269302 051 025","H 1410 285413 090 018"));
+// Job Code H 1410 285413 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285413 001 000","H 1410 285413 090 018"));
+		insert(new JobCode("H 1152 246500 001 000","Replace fuel level sensor (Fuel tank)"));
+		insert(new JobCodeDiagnostics("H 1152 246500 001 000","H 1410 285413 090 018"));
+		insert(new DiagnosticJob("H 1410 285413 090 018","Check/clean Fuel pipe from tank to fuel lift pump   contamination"));
+		insert(new DiagnosticJobToStep("H 1410 285413 090 018","P0087/P1087/Check low pressure fuel system/2C"));
+// Row 13: P0087/P1087/Check low pressure fuel system - Step 3A - Check the fuel flow in the return pipe to the fuel tank�
+		insert(new DiagnosticJob("H 0000 285412 010 242","Check Fuel pipe Return tank fuel flow"));
+		insert(new DiagnosticJobToStep("H 0000 285412 010 242","P0087/P1087/Check low pressure fuel system/3A"));
+// Row 14: P0087/P1087/Check low pressure fuel system - Step 4A - Check the fuel pressure in the fuel gallery (P1)�
+		insert(new JobCode("H 1410 264410 001 000","replace fuel pressure control valve (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 264410 001 000","H 1410 264410 010 209"));
+		insert(new DiagnosticJob("H 1410 264410 010 209","Check Fuel pressure control valve pressure"));
+		insert(new DiagnosticJobToStep("H 1410 264410 010 209","P0087/P1087/Check low pressure fuel system/4A"));
+// Row 15: P0087/P1087/Check low pressure fuel system - Step 5A - Check the fuel pressure after the fuel lift pump (P3)�
+		insert(new JobCode("H 1413 473301 001 000","replace fuel lift pump (Steering pump)"));
+		insert(new JobCodeDiagnostics("H 1413 473301 001 000","H 1413 473301 010 209"));
+		insert(new JobCode("H 1410 246199 001 000","replace fuel filter element (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 246199 001 000","H 1413 473301 010 209"));
+		insert(new DiagnosticJob("H 1413 473301 010 209","Check Fuel lift pump pressure"));
+		insert(new DiagnosticJobToStep("H 1413 473301 010 209","P0087/P1087/Check low pressure fuel system/5A"));
+// Row 16: P0087/P1087/Check low pressure fuel system - Step 6A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P0087/P1087/Check low pressure fuel system/6A"));
+// Row 17: P0088 - Step 1A - Check the fuel pressure in the fuel gallery�
+// Job Code H 1410 264410 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 264410 001 000","H 1410 264410 010 209"));
+// Job Code H 1410 285412 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285412 001 000","H 1410 264410 010 209"));
+// Job Code H 1153 269301 051 025 has already been defined
+		insert(new JobCodeDiagnostics("H 1153 269301 051 025","H 1410 264410 010 209"));
+// Diagnostic Code H 1410 264410 010 209 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 264410 010 209","P0088/1A"));
+// Row 18: P0088 - Step 2A - Check the fuel return circuit from fuel gallery to the fuel tank for blockages�
+		insert(new DiagnosticJob("H 1410 285412 090 018","Check/clean Fuel pressure fuel tank return pipe contamination"));
+		insert(new DiagnosticJobToStep("H 1410 285412 090 018","P0088/2A"));
+// Row 19: P0088 - Step 3A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P0088/3A"));
+// Row 20: P0093 - Step 1A - Review customer complaint�
+// Row 21: P0093 - Step 2A - Check for fuel rail pressure too low or rail pressure drop DTCs�
+		insert(new JobCode("H 1410 400499 001 151","replace 1 (one) injector (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 400499 001 151","H 1410 400499 010 008"));
+		insert(new DiagnosticJob("H 1410 400499 010 008","Check Injector damage"));
+		insert(new DiagnosticJobToStep("H 1410 400499 010 008","P0093/2A"));
+// Row 22: P0093 - Step 3A - Check for external leakages of the high-pressure fuel system components
+		insert(new JobCode("H 1410 285906 001 151","replace 1 (one) fuel injection pipe from pump unit to fuel rail (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 285906 001 151","H 1410 000000 010 200"));
+		insert(new JobCode("H 1410 322104 001 136","replace front common rail pump unit (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 000000 010 200"));
+		insert(new JobCode("H 1410 322104 001 137","replace rear common rail pump unit (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 000000 010 200"));
+		insert(new JobCode("H 1410 285904 001 151","replace 1 (one) fuel injection pipe 1-2-3-4 (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 285904 001 151","H 1410 000000 010 200"));
+		insert(new JobCode("H 1410 285905 001 151","replace 1 (one) fuel injection pipe 5-6 (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 285905 001 151","H 1410 000000 010 200"));
+		insert(new JobCode("H 1410 264415 001 000","replace fuel rail pressure control valve (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 264415 001 000","H 1410 000000 010 200"));
+		insert(new DiagnosticJob("H 1410 000000 010 200","Check Fuel system fuel leakage, external"));
+		insert(new DiagnosticJobToStep("H 1410 000000 010 200","P0093/3A"));
+// Row 23: P0093 - Step 4A - Check for DAVIE4 high-pressure fuel system test
+		insert(new DiagnosticJob("H 1410 000000 010 223","Check Fuel system with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1410 000000 010 223","P0093/4A"));
+// Row 24: P0093 - Step 4B - Perform DAVIE4 high-pressure fuel system test
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 000000 010 223"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 000000 010 223"));
+// Job Code H 1410 285904 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285904 001 151","H 1410 000000 010 223"));
+// Job Code H 1410 285905 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285905 001 151","H 1410 000000 010 223"));
+// Job Code H 1410 264415 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 264415 001 000","H 1410 000000 010 223"));
+// Diagnostic Code H 1410 000000 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 223","P0093/4B"));
+// Row 25: P0093 - Step 4C - Check the common rail pressure release valve
+// Job Code H 1410 264415 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 264415 001 000","H 1410 264415 010 025"));
+		insert(new DiagnosticJob("H 1410 264415 010 025","Check Fuel rail pressure control valve fuel leakage"));
+		insert(new DiagnosticJobToStep("H 1410 264415 010 025","P0093/4C"));
+// Row 26: P0093 - Step 4D - Check the injector leak
+// Diagnostic Code H 1410 000000 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 027","P0093/4D"));
+// Row 27: P0093 - Step 4E - Plug the fuel rail outlets one by one
+// Job Code H 1410 400499 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 151","H 1410 400499 010 199"));
+		insert(new JobCode("H 1410 400499 001 156","replace 6 (six) injector (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 400499 001 156","H 1410 400499 010 199"));
+		insert(new DiagnosticJob("H 1410 400499 010 199","Check Injector internal fuel leakage"));
+		insert(new DiagnosticJobToStep("H 1410 400499 010 199","P0093/4E"));
+// Row 28: P0093 - Step 4F - Test the operation of common rail pump unit 1 individually
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 248"));
+		insert(new DiagnosticJob("H 1410 322104 010 248","Check Common rail pump unit non-return valve"));
+		insert(new DiagnosticJobToStep("H 1410 322104 010 248","P0093/4F"));
+// Row 29: P0093 - Step 4G - Test the operation of common rail pump unit 2 individually
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 248"));
+// Diagnostic Code H 1410 322104 010 248 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 248","P0093/4G"));
+// Row 30: P0093 - Step 5A - Check for low or too low fuel pressure DTCs�
+		insert(new DiagnosticJob("H 1410 000000 010 201","Check Fuel system low pressure"));
+		insert(new DiagnosticJobToStep("H 1410 000000 010 201","P0093/5A"));
+// Row 31: P0093 - Step 6A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P0093/6A"));
+// Row 32: P0094 - Step 1A - Review Customer Complaint
+// Row 33: P0094 - Step 2A - Check for other DTCs in combination with P0094�
+// Diagnostic Code H 1410 000000 010 201 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 201","P0094/2A"));
+// Row 34: P0094 - Step 3A - Check for external leakages of the high-pressure fuel system components
+// Job Code H 1410 285906 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285906 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 000000 010 200"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 000000 010 200"));
+// Job Code H 1410 285904 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285904 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 285905 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285905 001 151","H 1410 000000 010 200"));
+		insert(new JobCode("H 1410 203700 001 000","replace fuel rail (Fuel system)"));
+		insert(new JobCodeDiagnostics("H 1410 203700 001 000","H 1410 000000 010 200"));
+// Diagnostic Code H 1410 000000 010 200 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 200","P0094/3A"));
+// Row 35: P0094 - Step 4A - Perform DAVIE test 'Evaluate the pump unit performance'
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 223"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 223"));
+		insert(new DiagnosticJob("H 1410 322104 010 223","Check Common rail pump unit with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1410 322104 010 223","P0094/4A"));
+// Row 36: P0094 - Step 4B - Perform DAVIE test 'Evaluate the injector back leak'�
+// Job Code H 1410 400499 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 151","H 1410 400499 010 223"));
+// Job Code H 1410 400499 001 156 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 156","H 1410 400499 010 223"));
+// Job Code H 1410 264415 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 264415 001 000","H 1410 400499 010 223"));
+		insert(new DiagnosticJob("H 1410 400499 010 223","Check Injector with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1410 400499 010 223","P0094/4B"));
+// Row 37: P0094 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P0094/5A"));
+// Row 38: P00B7 - Step 1A - Check for active P00B7�
+// Row 39: P00B7 - Step 1B - Investigate DTC�
+// Row 40: P00B7 - Step 2A - Visual inspection two stage clutch coolant pump connections and wiring�
+		insert(new JobCode("H 1407 322303 001 000","replace two stage clutch coolant pump"));
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303010 027"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1407 322303010 027"));
+		insert(new JobCode("H 1444 430226 001 000","replace electronic control unit, engine management system (Elec.system, engine)"));
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1407 322303010 027"));
+		insert(new DiagnosticJob("H 1407 322303010 027","Check Coolant pump 2 stage clutch visually"));
+		insert(new DiagnosticJobToStep("H 1407 322303010 027","P00B7/2A"));
+// Row 41: P00B7 - Step 3A - Check the two stage clutch coolant pump solenoid�
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303010 175"));
+		insert(new DiagnosticJob("H 1407 322303010 175","Check Coolant pump 2 stage clutch internal resistance"));
+		insert(new DiagnosticJobToStep("H 1407 322303010 175","P00B7/3A"));
+// Row 42: P00B7 - Step 3B - Check the two stage clutch coolant pump wiring�
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1407 322303010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1407 322303010 060"));
+		insert(new DiagnosticJob("H 1407 322303010 060","Check Coolant pump 2 stage clutch earth connections"));
+		insert(new DiagnosticJobToStep("H 1407 322303010 060","P00B7/3B"));
+// Row 43: P00B7 - Step 3C - Monitor the coolant pump speed control with DAVIE.�
+		insert(new DiagnosticJob("H 1407 322303010 223","Check Coolant pump 2 stage clutch with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1407 322303010 223","P00B7/3C"));
+// Row 44: P00B7 - Step 4A - Check the coolant pump drive components�
+		insert(new JobCode("H 1402 406202 001 000","replace poly-V-belt 8PK (Pulley)"));
+		insert(new JobCodeDiagnostics("H 1402 406202 001 000","H 1402 000000 010 027"));
+		insert(new JobCode("H 1402 438903 001 000","replace tensioner pulley, poly-V-belt"));
+		insert(new JobCodeDiagnostics("H 1402 438903 001 000","H 1402 000000 010 027"));
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1402 000000 010 027"));
+		insert(new DiagnosticJob("H 1402 000000 010 027","Check Pulley visually"));
+		insert(new DiagnosticJobToStep("H 1402 000000 010 027","P00B7/4A"));
+// Row 45: P00B7 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P00B7/5A"));
+// Row 46: P011A - Step 1A - Check for active P011A�
+// Row 47: P011A - Step 2A - Monitor the coolant pump speed signal with DAVIE.�
+		insert(new DiagnosticJob("H 1407 246804 010 223","Check Coolant pump speed sensor with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1407 246804 010 223","P011A/2A"));
+// Row 48: P011A - Step 2B - Monitor the coolant pump speed control with DAVIE.�
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303010 014"));
+		insert(new DiagnosticJob("H 1407 322303010 014","Check Coolant pump 2 stage clutch control"));
+		insert(new DiagnosticJobToStep("H 1407 322303010 014","P011A/2B"));
+// Row 49: P011A - Step 3A - Check the coolant pump drive components�
+// Job Code H 1402 406202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1402 406202 001 000","H 1402 000000 010 027"));
+// Job Code H 1402 438903 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1402 438903 001 000","H 1402 000000 010 027"));
+// Diagnostic Code H 1402 000000 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1402 000000 010 027","P011A/3A"));
+// Row 50: P011A - Step 3B - Check the coolant pump clutch�
+		insert(new DiagnosticJob("H 1407 322303010 000","Check Coolant pump 2 stage clutch"));
+		insert(new DiagnosticJobToStep("H 1407 322303010 000","P011A/3B"));
+// Row 51: P011A - Step 3C - Clean the coolant pump clutch�
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303012 000"));
+		insert(new DiagnosticJob("H 1407 322303012 000","Clean Coolant pump 2 stage clutch"));
+		insert(new DiagnosticJobToStep("H 1407 322303012 000","P011A/3C"));
+// Row 52: P011A - Step 4A - Visual inspection coolant pump speed sensor connections and wiring�
+		insert(new JobCode("H 1407 246804 001 000","Replace coolant pump speed sensor"));
+		insert(new JobCodeDiagnostics("H 1407 246804 001 000","H 1407 322303010 027"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1407 322303010 027"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1407 322303010 027"));
+// Diagnostic Code H 1407 322303010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1407 322303010 027","P011A/4A"));
+// Row 53: P011A - Step 4B - Check the coolant pump speed sensor wiring�
+// Job Code H 1407 246804 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 246804 001 000","H 1407 322303010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1407 322303010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1407 322303010 060"));
+// Diagnostic Code H 1407 322303010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1407 322303010 060","P011A/4B"));
+// Row 54: P011A - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P011A/5A"));
+// Row 55: P1020 - Step 1A - Check for related DTCs.�
+// Row 56: P1020 - Step 2A - Perform a key cycle�
+// Row 57: P1020 - Step 3A - Try another BPV valve.�
+		insert(new JobCode("H 1435 264406 001 033","replace assembly Back Pressure Valve (Engine brake, engine)"));
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+		insert(new DiagnosticJob("H 1435 264406 067 000","Use Control valve Back Pressure Valve"));
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1020/3A"));
+// Row 58: P1020 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1020/4A"));
+// Row 59: P1021 - Step 1A - Perform a key cycle
+// Row 60: P1021 - Step 2A - Visual inspection BPV valve connections and wiring
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1435 264406 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1435 264406 010 060"));
+		insert(new DiagnosticJob("H 1435 264406 010 060","Check Control valve Back Pressure Valve earth connections"));
+		insert(new DiagnosticJobToStep("H 1435 264406 010 060","P1021/2A"));
+// Row 61: P1021 - Step 3A - Check the BPV valve CAN connection and power supply�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1435 264406 055 120"));
+		insert(new DiagnosticJob("H 1435 264406 055 120","Measure Control valve Back Pressure Valve power supply and earth"));
+		insert(new DiagnosticJobToStep("H 1435 264406 055 120","P1021/3A"));
+// Row 62: P1021 - Step 4A - Try another BPV valve.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+// Diagnostic Code H 1435 264406 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1021/4A"));
+// Row 63: P1021 - Step 5A - Reset the DTCs.
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1021/5A"));
+// Row 64: P1022 - Step 1A - Perform a key cycle�
+// Row 65: P1022 - Step 2A - Visual inspection of the link rod installation�
+		insert(new DiagnosticJob("H 1435 474499 010 027","Check Repair kit visually"));
+		insert(new DiagnosticJobToStep("H 1435 474499 010 027","P1022/2A"));
+// Row 66: P1022 - Step 2B - Visual inspection of the BPV valve mechanism�
+		insert(new JobCode("H 1435 474499 001 000","replace repair kit (Engine brake, engine)"));
+		insert(new JobCodeDiagnostics("H 1435 474499 001 000","H 1435 264406 010 245"));
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 245"));
+		insert(new DiagnosticJob("H 1435 264406 010 245","Check Control valve Back Pressure Valve mechanism"));
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1022/2B"));
+// Row 67: P1022 - Step 2C - Check the free movement of the BPV valve mechanism�
+// Diagnostic Code H 1435 264406 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1022/2C"));
+// Row 68: P1022 - Step 2D - Check for blockage in the BPV valve housing�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 090 018"));
+		insert(new DiagnosticJob("H 1435 264406 090 018","Check/clean Control valve Back Pressure Valve contamination"));
+		insert(new DiagnosticJobToStep("H 1435 264406 090 018","P1022/2D"));
+// Row 69: P1022 - Step 3A - Try another BPV valve.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+// Diagnostic Code H 1435 264406 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1022/3A"));
+// Row 70: P1022 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1022/4A"));
+// Row 71: P1023 - Step 1A - Perform a key cycle�
+// Row 72: P1023 - Step 2A - Check for an active P1023.�
+// Row 73: P1023 - Step 3A - Check the coolant level of the vehicle cooling system�
+		insert(new DiagnosticJob("H 1453 000000 010 004","Check Cooling system,chas. coolant level"));
+		insert(new DiagnosticJobToStep("H 1453 000000 010 004","P1023/3A"));
+// Row 74: P1023 - Step 3B - Inspect the actuator cooling circuit�
+		insert(new JobCode("H 1435 206600 001 000","replace coolant pipe"));
+		insert(new JobCodeDiagnostics("H 1435 206600 001 000","H 1435 264406 010 094"));
+		insert(new DiagnosticJob("H 1435 264406 010 094","Check Control valve Back Pressure Valve cooling system"));
+		insert(new DiagnosticJobToStep("H 1435 264406 010 094","P1023/3B"));
+// Row 75: P1023 - Step 4A - Try another BPV valve.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+// Diagnostic Code H 1435 264406 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1023/4A"));
+// Row 76: P1023 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1023/5A"));
+// Row 77: P1024 - Step 1A - Perform a key-cycle�
+// Row 78: P1024 - Step 2A - Visual inspection BPV valve connections and wiring�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1435 264406 010 060"));
+// Diagnostic Code H 1435 264406 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 060","P1024/2A"));
+// Row 79: P1024 - Step 2B - Check the BPV valve power supply.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1435 264406 055 120"));
+// Diagnostic Code H 1435 264406 055 120 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 055 120","P1024/2B"));
+// Row 80: P1024 - Step 3A - Try another BPV valve.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+// Diagnostic Code H 1435 264406 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1024/3A"));
+// Row 81: P1024 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1024/4A"));
+// Row 82: P1025 - Step 1A - Perform a key cycle�
+// Row 83: P1025 - Step 2A - Visual inspection of the link rod installation�
+// Diagnostic Code H 1435 474499 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 474499 010 027","P1025/2A"));
+// Row 84: P1025 - Step 2B - Visual inspection of the BPV valve mechanism�
+// Job Code H 1435 474499 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 474499 001 000","H 1435 264406 010 245"));
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 245"));
+// Diagnostic Code H 1435 264406 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1025/2B"));
+// Row 85: P1025 - Step 2C - Check the free movement of the BPV valve mechanism�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 245"));
+// Diagnostic Code H 1435 264406 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1025/2C"));
+// Row 86: P1025 - Step 3A - Try another BPV valve.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+// Diagnostic Code H 1435 264406 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1025/3A"));
+// Row 87: P1025 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1025/4A"));
+// Row 88: P1026 - Step 1A - Perform a key cycle�
+// Row 89: P1026 - Step 2A - Visual inspection of the BPV valve mechanism�
+// Job Code H 1435 474499 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 474499 001 000","H 1435 264406 010 245"));
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 245"));
+// Diagnostic Code H 1435 264406 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1026/2A"));
+// Row 90: P1026 - Step 2B - Visual inspection of the BPV valve mechanism�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 245"));
+// Diagnostic Code H 1435 264406 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1026/2B"));
+// Row 91: P1026 - Step 2C - Check the free movement of the BPV valve mechanism�
+// Diagnostic Code H 1435 264406 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 245","P1026/2C"));
+// Row 92: P1026 - Step 2D - Visual inspection BPV valve connections and wiring�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1435 264406 010 060"));
+// Diagnostic Code H 1435 264406 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 010 060","P1026/2D"));
+// Row 93: P1026 - Step 2E - Check the BPV valve power supply.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1435 264406 055 120"));
+// Diagnostic Code H 1435 264406 055 120 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 055 120","P1026/2E"));
+// Row 94: P1026 - Step 2F - Check for blockage in the BPV valve housing�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 090 018"));
+// Diagnostic Code H 1435 264406 090 018 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 090 018","P1026/2F"));
+// Row 95: P1026 - Step 3A - Try another BPV valve.�
+// Job Code H 1435 264406 001 033 has already been defined
+		insert(new JobCodeDiagnostics("H 1435 264406 001 033","H 1435 264406 067 000"));
+// Diagnostic Code H 1435 264406 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1435 264406 067 000","P1026/3A"));
+// Row 96: P1026 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1026/4A"));
+// Row 97: P1091 - Step 1A - Check if P1091 is active�
+		insert(new JobCode("None, decision step",""));
+		insert(new JobCodeDiagnostics("None, decision step","Step not related performing checking/testing part"));
+// Row 98: P1091 - Step 2A - Check for external leakages of the high-pressure fuel system components
+// Job Code H 1410 285906 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285906 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 000000 010 200"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 000000 010 200"));
+// Job Code H 1410 285904 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285904 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 285905 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285905 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 203700 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 203700 001 000","H 1410 000000 010 200"));
+// Diagnostic Code H 1410 000000 010 200 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 200","P1091/2A"));
+// Row 99: P1091 - Step 3A - Perform DAVIE4 test 'Evaluate the injector back leak'
+// Job Code H 1410 400499 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 151","H 1410 400499 010 223"));
+// Job Code H 1410 400499 001 156 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 156","H 1410 400499 010 223"));
+// Job Code H 1410 264415 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 264415 001 000","H 1410 400499 010 223"));
+// Diagnostic Code H 1410 400499 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 400499 010 223","P1091/3A"));
+// Row 100: P1091 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1091/4A"));
+// Row 101: P1230 - Step 1A - Check for other DTCs.�
+// Row 102: P1230 - Step 1B - Check for active DTCs.�
+// Row 103: P1230 - Step 2A - Check the software version present in the PCI ECU.�
+		insert(new DiagnosticJob("H 1020 000000 010 223","Check Ems software with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1020 000000 010 223","P1230/2A"));
+// Row 104: P1230 - Step 2B - Reprogram the PCI ECU with the latest software version.�
+		insert(new JobCode("H 1449 430226 082 000","programming electronic control unit, engine management system (Elec.syst. 2 engine)"));
+		insert(new JobCodeDiagnostics("H 1449 430226 082 000","H 1449 430226 082 000"));
+		insert(new DiagnosticJob("H 1449 430226 082 000","Programming Electronic unit Engine control"));
+		insert(new DiagnosticJobToStep("H 1449 430226 082 000","P1230/2B"));
+// Row 105: P1230 - Step 3A - Electrical connections and wiring wiggle test�
+		insert(new JobCode("H 1449 461301 001 000","replace engine wiring harness J1 A (Elec.syst. 2 engine)"));
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1449 461301 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1449 461301 010 060"));
+		insert(new DiagnosticJob("H 1449 461301 010 060","Check Wiring harness,eng. J1 Aearth connections"));
+		insert(new DiagnosticJobToStep("H 1449 461301 010 060","P1230/3A"));
+// Row 106: P1230 - Step 3B - Visual inspection common rail pump unit 1 (L092) connections and wiring�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 027"));
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 027"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 027"));
+		insert(new DiagnosticJob("H 1410 322104 010 027","Check Common rail pump unit visually"));
+		insert(new DiagnosticJobToStep("H 1410 322104 010 027","P1230/3B"));
+// Row 107: P1230 - Step 3C - Check the common rail pump unit 1 (L092) resistance�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 175"));
+		insert(new DiagnosticJob("H 1410 322104 010 175","Check Common rail pump unit internal resistance"));
+		insert(new DiagnosticJobToStep("H 1410 322104 010 175","P1230/3C"));
+// Row 108: P1230 - Step 3D - Check the common rail pump unit 1 (L092) wiring.�
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 060"));
+		insert(new DiagnosticJob("H 1410 322104 010 060","Check Common rail pump unit earth connections"));
+		insert(new DiagnosticJobToStep("H 1410 322104 010 060","P1230/3D"));
+// Row 109: P1230 - Step 4A - Visual inspection common rail pump unit 1 and 2 connections and wiring�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 027"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 027"));
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 027"));
+// Diagnostic Code H 1410 322104 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 027","P1230/4A"));
+// Row 110: P1230 - Step 4B - Check the common rail pump unit 1 and 2 resistance�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 175"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 175"));
+// Diagnostic Code H 1410 322104 010 175 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 175","P1230/4B"));
+// Row 111: P1230 - Step 4C - Check the common rail pump unit 1 and 2 wiring.�
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 060"));
+// Diagnostic Code H 1410 322104 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 060","P1230/4C"));
+// Row 112: P1230 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1230/5A"));
+// Row 113: P1234 - Step 1A - Check for other DTCs.�
+// Row 114: P1234 - Step 1B - Check for active DTCs.�
+// Row 115: P1234 - Step 2A - Check the software version present in the PCI ECU.�
+// Diagnostic Code H 1020 000000 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1020 000000 010 223","P1234/2A"));
+// Row 116: P1234 - Step 2B - Reprogram the PCI ECU with the latest software version.�
+// Job Code H 1449 430226 082 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 430226 082 000","H 1449 430226 082 000"));
+// Diagnostic Code H 1449 430226 082 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1449 430226 082 000","P1234/2B"));
+// Row 117: P1234 - Step 3A - Electrical connections and wiring wiggle test�
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1449 461301 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1449 461301 010 060"));
+// Diagnostic Code H 1449 461301 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1449 461301 010 060","P1234/3A"));
+// Row 118: P1234 - Step 3B - Visual inspection common rail pump unit 2 (L093) connections and wiring�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 027"));
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 027"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 027"));
+// Diagnostic Code H 1410 322104 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 027","P1234/3B"));
+// Row 119: P1234 - Step 3C - Check the common rail pump unit 2 (L093) resistance�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 175"));
+// Diagnostic Code H 1410 322104 010 175 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 175","P1234/3C"));
+// Row 120: P1234 - Step 3D - Check the common rail pump unit 2 (L093) wiring.�
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 060"));
+// Diagnostic Code H 1410 322104 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 060","P1234/3D"));
+// Row 121: P1234 - Step 4A - Visual inspection common rail pump unit 1 and 2 connections and wiring�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 027"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 027"));
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 027"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 027"));
+// Diagnostic Code H 1410 322104 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 027","P1234/4A"));
+// Row 122: P1234 - Step 4B - Check the common rail pump unit 1 and 2 resistance�
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 175"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 175"));
+// Diagnostic Code H 1410 322104 010 175 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 175","P1234/4B"));
+// Row 123: P1234 - Step 4C - Check the common rail pump unit 1 and 2 wiring.�
+// Job Code H 1449 461301 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461301 001 000","H 1410 322104 010 060"));
+// Job Code H 1444 430226 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1444 430226 001 000","H 1410 322104 010 060"));
+// Diagnostic Code H 1410 322104 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 060","P1234/4C"));
+// Row 124: P1234 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1234/5A"));
+// Row 125: P1352 - Step 1A - Check for other active DTCs in combination with P1352.�
+// Row 126: P1352 - Step 1B - Check for an ACTIVE DTC P1352.�
+// Row 127: P1352 - Step 2A - Check the VTG turbocharger actuator power supply.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1409 430269 055 120"));
+// Diagnostic Code H 1409 430269 055 120 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 055 120","P1352/2A"));
+// Row 128: P1352 - Step 3A - Perform the 'Evaluate the turbo actuator functionality' test in DAVIE.�
+		insert(new DiagnosticJob("H 1409 430269 010 223","Check Electronic unit VTG actuator with DAVIE"));
+		insert(new DiagnosticJobToStep("H 1409 430269 010 223","P1352/3A"));
+// Row 129: P1352 - Step 4A - Check the VTG turbocharger sector gear travel.�
+// Job Code H 1409 247202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 247202 010 245"));
+// Diagnostic Code H 1409 247202 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 247202 010 245","P1352/4A"));
+// Row 130: P1352 - Step 4B - Check the VTG turbocharger actuator output gear and sector gear for damage.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 245"));
+// Job Code H 1409 247202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 430269 010 245"));
+// Diagnostic Code H 1409 430269 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 010 245","P1352/4B"));
+// Row 131: P1352 - Step 4C - Reinstall the VTG turbo actuator.�
+// Job Code H 1409 247202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 430269 067 000"));
+// Diagnostic Code H 1409 430269 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 067 000","P1352/4C"));
+// Row 132: P1352 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1352/5A"));
+// Row 133: P1354 - Step 1A - Check for active DTCs.�
+// Row 134: P1354 - Step 2A - Visual inspection VTG turbo charger actuator connections and wiring�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1409 430269 010 060"));
+		insert(new DiagnosticJob("H 1409 430269 010 060","Check Electronic unit VTG actuator earth connections"));
+		insert(new DiagnosticJobToStep("H 1409 430269 010 060","P1354/2A"));
+// Row 135: P1354 - Step 2B - VTG turbo charger actuator connections and wiring wiggle test�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1409 430269 010 060"));
+// Diagnostic Code H 1409 430269 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 010 060","P1354/2B"));
+// Row 136: P1354 - Step 2C - Check the VTG turbo charger actuator wiring.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1409 430269 010 120"));
+		insert(new DiagnosticJob("H 1409 430269 010 120","Check Electronic unit VTG actuator power supply and earth"));
+		insert(new DiagnosticJobToStep("H 1409 430269 010 120","P1354/2C"));
+// Row 137: P1354 - Step 3A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1354/3A"));
+// Row 138: P1356 - Step 1A - Perform a key cycle�
+// Row 139: P1356 - Step 2A - Check for an active P1356.�
+// Row 140: P1356 - Step 3A - Check the coolant level of the vehicle cooling system�
+// Diagnostic Code H 1453 000000 010 004 has already been defined
+		insert(new DiagnosticJobToStep("H 1453 000000 010 004","P1356/3A"));
+// Row 141: P1356 - Step 3B - Inspect the actuator cooling circuit�
+		insert(new JobCode("H 1409 206700 001 042","replace supply coolant pipe (Inlet/exhaust elem.)"));
+		insert(new JobCodeDiagnostics("H 1409 206700 001 042","H 1409 430269 010 094"));
+		insert(new JobCode("H 1409 206700 001 043","replace return coolant pipe (Inlet/exhaust elem.)"));
+		insert(new JobCodeDiagnostics("H 1409 206700 001 043","H 1409 430269 010 094"));
+		insert(new DiagnosticJob("H 1409 430269 010 094","Check Electronic unit VTG actuator cooling system"));
+		insert(new DiagnosticJobToStep("H 1409 430269 010 094","P1356/3B"));
+// Row 142: P1356 - Step 4A - Check for other active DTCs.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","null"));
+// Row 143: P1356 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1356/5A"));
+// Row 144: P140E - Step 1A - Check for DTCs�
+// Row 145: P140E - Step 2A - Monitor the crankcase ventilation module rotor speed�
+		insert(new DiagnosticJob("H 1406 456501 055 058","Measure Oil separator Crankcase module speed signal"));
+		insert(new DiagnosticJobToStep("H 1406 456501 055 058","P140E/2A"));
+// Row 146: P140E - Step 2B - Monitor the crankcase ventilation module rotor speed with the hose disconnected�
+		insert(new JobCode("H 1406 456501 001 000","replace crankcase ventilation module (Lubrication system)"));
+		insert(new JobCodeDiagnostics("H 1406 456501 001 000","H 1406 456501 055 058"));
+// Diagnostic Code H 1406 456501 055 058 has already been defined
+		insert(new DiagnosticJobToStep("H 1406 456501 055 058","P140E/2B"));
+// Row 147: P140E - Step 3A - Visual inspection crankcase ventilation module connections and wiring�
+// Job Code H 1406 456501 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1406 456501 001 000","H 1406 456501 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1406 456501 010 060"));
+		insert(new DiagnosticJob("H 1406 456501 010 060","Check Oil separator Crankcase module earth connections"));
+		insert(new DiagnosticJobToStep("H 1406 456501 010 060","P140E/3A"));
+// Row 148: P140E - Step 3B - Check the crankcase ventilation module wiring.�
+// Job Code H 1406 456501 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1406 456501 001 000","H 1406 456501 055 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1406 456501 055 060"));
+		insert(new DiagnosticJob("H 1406 456501 055 060","Measure Oil separator Crankcase module earth connections"));
+		insert(new DiagnosticJobToStep("H 1406 456501 055 060","P140E/3B"));
+// Row 149: P140E - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P140E/4A"));
+// Row 150: P1480 - Step 1A - Perform a key cycle�
+// Row 151: P1480 - Step 2A - Visual inspection of EGR valve mechanism�
+		insert(new JobCode("H 1419 264407 001 000","replace EGR control valve (EGR system)"));
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 245"));
+		insert(new DiagnosticJob("H 1419 264407 010 245","Check Control valve EGR mechanism"));
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1480/2A"));
+// Row 152: P1480 - Step 2B - Check the free movement of the EGR valve mechanism�
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1480/2B"));
+// Row 153: P1480 - Step 2C - Check for a sticking EGR valve.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 027"));
+		insert(new DiagnosticJob("H 1419 264407 010 027","Check Control valve EGR visually"));
+		insert(new DiagnosticJobToStep("H 1419 264407 010 027","P1480/2C"));
+// Row 154: P1480 - Step 2D - Check for blockage in the EGR valve housing�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 090 018"));
+		insert(new DiagnosticJob("H 1419 264407 090 018","Check/clean Control valve EGR contamination"));
+		insert(new DiagnosticJobToStep("H 1419 264407 090 018","P1480/2D"));
+// Row 155: P1480 - Step 3A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+		insert(new DiagnosticJob("H 1419 264407 067 000","Use Control valve EGR"));
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1480/3A"));
+// Row 156: P1480 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1480/4A"));
+// Row 157: P1481 - Step 1A - Perform a key cycle�
+// Row 158: P1481 - Step 2A - Visual inspection of EGR valve mechanism�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 245"));
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1481/2A"));
+// Row 159: P1481 - Step 2B - Check the free movement of the EGR valve mechanism�
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1481/2B"));
+// Row 160: P1481 - Step 2C - Check for a sticking EGR valve.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 027"));
+// Diagnostic Code H 1419 264407 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 027","P1481/2C"));
+// Row 161: P1481 - Step 2D - Check for blockage in the EGR valve housing�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 090 018"));
+// Diagnostic Code H 1419 264407 090 018 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 090 018","P1481/2D"));
+// Row 162: P1481 - Step 3A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1481/3A"));
+// Row 163: P1481 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1481/4A"));
+// Row 164: P1482 - Step 1A - Perform a key cycle�
+// Row 165: P1482 - Step 2A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1482/2A"));
+// Row 166: P1482 - Step 3A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1482/3A"));
+// Row 167: P1483 - Step 1A - Perform a key cycle�
+// Row 168: P1483 - Step 2A - Visual inspection EGR valve module connections and wiring�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1419 264407 010 060"));
+		insert(new DiagnosticJob("H 1419 264407 010 060","Check Control valve EGR earth connections"));
+		insert(new DiagnosticJobToStep("H 1419 264407 010 060","P1483/2A"));
+// Row 169: P1483 - Step 3A - Check the EGR valve module CAN connection and power supply.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1419 264407 055 120"));
+		insert(new DiagnosticJob("H 1419 264407 055 120","Measure Control valve EGR power supply and earth"));
+		insert(new DiagnosticJobToStep("H 1419 264407 055 120","P1483/3A"));
+// Row 170: P1483 - Step 4A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1483/4A"));
+// Row 171: P1483 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1483/5A"));
+// Row 172: P1484 - Step 1A - Perform a key cycle�
+// Row 173: P1484 - Step 2A - Visual inspection of EGR valve mechanism�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 245"));
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1484/2A"));
+// Row 174: P1484 - Step 2B - Check the free movement of the EGR valve mechanism�
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1484/2B"));
+// Row 175: P1484 - Step 2C - Check for blockage in the EGR valve housing�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 090 018"));
+// Diagnostic Code H 1419 264407 090 018 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 090 018","P1484/2C"));
+// Row 176: P1484 - Step 3A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1484/3A"));
+// Row 177: P1484 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1484/4A"));
+// Row 178: P1485 - Step 1A - Perform a key cycle�
+// Row 179: P1485 - Step 2A - Check for an active P1485.�
+// Row 180: P1485 - Step 3A - Check the coolant level of the vehicle cooling system�
+// Diagnostic Code H 1453 000000 010 004 has already been defined
+		insert(new DiagnosticJobToStep("H 1453 000000 010 004","P1485/3A"));
+// Row 181: P1485 - Step 3B - Inspect the actuator cooling circuit�
+		insert(new JobCode("H 1419 206600 090 149","check/clean all coolant pipe (EGR system)"));
+		insert(new JobCodeDiagnostics("H 1419 206600 090 149","H 1419 264407 010 094"));
+		insert(new DiagnosticJob("H 1419 264407 010 094","Check Control valve EGR cooling system"));
+		insert(new DiagnosticJobToStep("H 1419 264407 010 094","P1485/3B"));
+// Row 182: P1485 - Step 4A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1485/4A"));
+// Row 183: P1485 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1485/5A"));
+// Row 184: P1486 - Step 1A - Perform a key cycle�
+// Row 185: P1486 - Step 2A - Visual inspection EGR valve module connections and wiring�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 027"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1419 264407 010 027"));
+// Diagnostic Code H 1419 264407 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 027","P1486/2A"));
+// Row 186: P1486 - Step 2B - Check the EGR valve module power supply.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1419 264407 055 120"));
+// Diagnostic Code H 1419 264407 055 120 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 055 120","P1486/2B"));
+// Row 187: P1486 - Step 3A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1486/3A"));
+// Row 188: P1486 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1486/4A"));
+// Row 189: P1487 - Step 1A - Perform a key cycle�
+// Row 190: P1487 - Step 2A - Visual inspection of EGR valve mechanism�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 245"));
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1487/2A"));
+// Row 191: P1487 - Step 2B - Check the free movement of the EGR valve mechanism�
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1487/2B"));
+// Row 192: P1487 - Step 2C - Check for blockage in the EGR valve housing
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 090 018"));
+// Diagnostic Code H 1419 264407 090 018 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 090 018","P1487/2C"));
+// Row 193: P1487 - Step 3A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1487/3A"));
+// Row 194: P1487 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1487/4A"));
+// Row 195: P1488 - Step 1A - Perform a key cycle�
+// Row 196: P1488 - Step 2A - Visual inspection of EGR valve mechanism�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 245"));
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1488/2A"));
+// Row 197: P1488 - Step 2B - Check the free movement of the EGR valve mechanism�
+// Diagnostic Code H 1419 264407 010 245 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 245","P1488/2B"));
+// Row 198: P1488 - Step 2C - Visual inspection EGR valve module connections and wiring�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1419 264407 010 060"));
+// Diagnostic Code H 1419 264407 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 060","P1488/2C"));
+// Row 199: P1488 - Step 2D - Check the EGR valve module power supply.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1419 264407 055 120"));
+// Diagnostic Code H 1419 264407 055 120 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 055 120","P1488/2D"));
+// Row 200: P1488 - Step 2E - Check for a sticking EGR valve.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 010 027"));
+// Diagnostic Code H 1419 264407 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 010 027","P1488/2E"));
+// Row 201: P1488 - Step 2F - Check for blockage in the EGR valve housing�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 090 018"));
+// Diagnostic Code H 1419 264407 090 018 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 090 018","P1488/2F"));
+// Row 202: P1488 - Step 3A - Try another EGR valve module.�
+// Job Code H 1419 264407 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1419 264407 001 000","H 1419 264407 067 000"));
+// Diagnostic Code H 1419 264407 067 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1419 264407 067 000","P1488/3A"));
+// Row 203: P1488 - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1488/4A"));
+// Row 204: P153B - Step 1A - Check for DTCs�
+// Row 205: P153B - Step 2A - Monitor the crankcase ventilation module rotor speed�
+// Diagnostic Code H 1406 456501 055 058 has already been defined
+		insert(new DiagnosticJobToStep("H 1406 456501 055 058","P153B/2A"));
+// Row 206: P153B - Step 2B - Monitor the crankcase ventilation module rotor speed with the hose disconnected�
+// Job Code H 1406 456501 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1406 456501 001 000","H 1406 456501 055 058"));
+// Diagnostic Code H 1406 456501 055 058 has already been defined
+		insert(new DiagnosticJobToStep("H 1406 456501 055 058","P153B/2B"));
+// Row 207: P153B - Step 3A - Visual inspection crankcase ventilation module connections and wiring�
+// Job Code H 1406 456501 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1406 456501 001 000","H 1406 456501 010 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1406 456501 010 060"));
+// Diagnostic Code H 1406 456501 010 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1406 456501 010 060","P153B/3A"));
+// Row 208: P153B - Step 3B - Check the crankcase ventilation module wiring.�
+// Job Code H 1406 456501 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1406 456501 001 000","H 1406 456501 055 060"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1406 456501 055 060"));
+// Diagnostic Code H 1406 456501 055 060 has already been defined
+		insert(new DiagnosticJobToStep("H 1406 456501 055 060","P153B/3B"));
+// Row 209: P153B - Step 4A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P153B/4A"));
+// Row 210: P1727 - Step 1A - Check for E-CAN related DTCs.�
+// Row 211: P1727 - Step 1B - Check monitor signal 'turbo actuator state'.�
+		insert(new JobCode("H 1409 430269 092 000","calibrate  VTG turbocharger actuator (Inlet/exhaust elem.)"));
+		insert(new JobCodeDiagnostics("H 1409 430269 092 000","H 1409 430269 010 068"));
+		insert(new DiagnosticJob("H 1409 430269 010 068","Check Electronic unit VTG actuator misalignment"));
+		insert(new DiagnosticJobToStep("H 1409 430269 010 068","P1727/1B"));
+// Row 212: P1727 - Step 1C - Perform the DAVIE test 'Evaluate the turbo actuator functionality'.�
+// Diagnostic Code H 1409 430269 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 010 223","P1727/1C"));
+// Row 213: P1727 - Step 1D - Perform the DAVIE test 'Evaluate the turbo actuator functionality' with the actuator separated from the VTG.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 223"));
+// Job Code H 1409 247202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 430269 010 223"));
+// Diagnostic Code H 1409 430269 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 010 223","P1727/1D"));
+// Row 214: P1727 - Step 2A - Clear the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P1727/2A"));
+// Row 215: P228D - Step 1A - Review customer complaint�
+// Row 216: P228D - Step 2A - Check for other DTCs in combination with P228D�
+// Diagnostic Code H 1410 000000 010 201 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 201","P228D/2A"));
+// Row 217: P228D - Step 3A - Check for external leakages of the high-pressure fuel system components
+// Job Code H 1410 285906 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285906 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 000000 010 200"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 000000 010 200"));
+// Job Code H 1410 285904 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285904 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 285905 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 285905 001 151","H 1410 000000 010 200"));
+// Job Code H 1410 203700 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 203700 001 000","H 1410 000000 010 200"));
+// Diagnostic Code H 1410 000000 010 200 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 000000 010 200","P228D/3A"));
+// Row 218: P228D - Step 4A - Perform DAVIE test 'Evaluate the pump unit performance'
+// Job Code H 1410 322104 001 136 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 136","H 1410 322104 010 223"));
+// Job Code H 1410 322104 001 137 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 322104 001 137","H 1410 322104 010 223"));
+// Diagnostic Code H 1410 322104 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 322104 010 223","P228D/4A"));
+// Row 219: P228D - Step 4B - Perform DAVIE test 'Evaluate the injector back leak'�
+// Job Code H 1410 400499 001 151 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 151","H 1410 400499 010 223"));
+// Job Code H 1410 400499 001 156 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 400499 001 156","H 1410 400499 010 223"));
+// Job Code H 1410 264415 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1410 264415 001 000","H 1410 400499 010 223"));
+// Diagnostic Code H 1410 400499 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1410 400499 010 223","P228D/4B"));
+// Row 220: P228D - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P228D/5A"));
+// Row 221: P2563 - Step 1A - Check the PCI ECU software.�
+// Job Code H 1449 430226 082 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 430226 082 000","H 1020 000000 010 223"));
+// Diagnostic Code H 1020 000000 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1020 000000 010 223","P2563/1A"));
+// Row 222: P2563 - Step 2A - Check for active power supply and/or CAN communication DTCs in combination with P2563.�
+// Row 223: P2563 - Step 3A - Check the VTG turbocharger actuator power supply.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 055 120"));
+// Job Code H 1449 461303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 461303 001 000","H 1409 430269 055 120"));
+// Diagnostic Code H 1409 430269 055 120 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 055 120","P2563/3A"));
+// Row 224: P2563 - Step 4A - Perform the DAVIE test 'Evaluate the turbo actuator functionality'.�
+// Diagnostic Code H 1409 430269 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 010 223","P2563/4A"));
+// Row 225: P2563 - Step 4B - Perform the DAVIE test 'Evaluate the turbo actuator functionality' with the actuator separated from the VTG.�
+// Job Code H 1409 430269 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 430269 001 000","H 1409 430269 010 223"));
+// Job Code H 1409 247202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1409 247202 001 000","H 1409 430269 010 223"));
+// Diagnostic Code H 1409 430269 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1409 430269 010 223","P2563/4B"));
+// Row 226: P2563 - Step 5A - Clear the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P2563/5A"));
+// Row 227: P3100 - Step 1A - Investigate related DTCs �
+// Row 228: P3100 - Step 2A - Check for correct software in the PCI ECU�
+// Job Code H 1449 430226 082 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 430226 082 000","H 1020 000000 010 223"));
+// Diagnostic Code H 1020 000000 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1020 000000 010 223","P3100/2A"));
+// Row 229: P3100 - Step 3A - Check the coolant pump clutch�
+// Diagnostic Code H 1407 322303010 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1407 322303010 000","P3100/3A"));
+// Row 230: P3100 - Step 3B - Clean the coolant pump clutch�
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303012 000"));
+// Diagnostic Code H 1407 322303012 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1407 322303012 000","P3100/3B"));
+// Row 231: P3100 - Step 4A - Monitor the coolant pump speed control with DAVIE.�
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303010 223"));
+// Diagnostic Code H 1407 322303010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1407 322303010 223","P3100/4A"));
+// Row 232: P3100 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P3100/5A"));
+// Row 233: P3101 - Step 1A - Check for correct software in the PCI ECU�
+// Job Code H 1449 430226 082 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1449 430226 082 000","H 1020 000000 010 223"));
+// Diagnostic Code H 1020 000000 010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1020 000000 010 223","P3101/1A"));
+// Row 234: P3101 - Step 2A - Check for P3101�
+// Row 235: P3101 - Step 3A - Check the coolant pump drive components�
+// Job Code H 1402 406202 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1402 406202 001 000","H 1402 000000 010 027"));
+// Job Code H 1402 438903 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1402 438903 001 000","H 1402 000000 010 027"));
+// Diagnostic Code H 1402 000000 010 027 has already been defined
+		insert(new DiagnosticJobToStep("H 1402 000000 010 027","P3101/3A"));
+// Row 236: P3101 - Step 4A - Monitor the coolant pump speed control with DAVIE.�
+// Job Code H 1407 322303 001 000 has already been defined
+		insert(new JobCodeDiagnostics("H 1407 322303 001 000","H 1407 322303010 223"));
+// Diagnostic Code H 1407 322303010 223 has already been defined
+		insert(new DiagnosticJobToStep("H 1407 322303010 223","P3101/4A"));
+// Row 237: P3101 - Step 5A - Reset the DTCs.�
+// Diagnostic Code H 1444 430226 072 000 has already been defined
+		insert(new DiagnosticJobToStep("H 1444 430226 072 000","P3101/5A"));
+end
