@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://jboss.org/kie/6.0.0/kmodule">
-	<kbase name="kbase" default="true">
-		<ksession name="dasession" type="stateless" default="true" />
-		<ksession name="dadebug"   type="stateful" />
-	</kbase>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <kbase name="kbase1" default="true" eventProcessingMode="cloud" equalsBehavior="equality" packages="com.bsquare.datav.trucksidetool.re">
+    <ksession name="ksession1" type="stateful" default="true" clockType="realtime"/>
+    <ksession name="ksession2" type="stateless" default="false" clockType="realtime"/>
+  </kbase>
 </kmodule>
