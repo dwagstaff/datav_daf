@@ -1,9 +1,11 @@
 //created on: Jan 21, 2018
-package com.bsquare.datav.da
+package com.bsquare.datav.trucksidetool.re
 import com.bsquare.datav.trucksidetool.re.PossibleStep;
 import com.bsquare.datav.trucksidetool.re.DTC;
 import com.bsquare.datav.trucksidetool.re.DtcClassification;
 import com.bsquare.datav.trucksidetool.re.AdjustScore;
+import com.bsquare.datav.trucksidetool.re.StepPerformed
+
 
 // Query to Return a list of all possible steps
 query "Steps"
@@ -42,11 +44,11 @@ end
 
 
 // Boost score of steps which support a Job Code we are interested in
-rule "Boost score of steps which are diagnostics for predicted job codes"
-    when
-        JobC
-    then
-end
+//rule "Boost score of steps which are diagnostics for predicted job codes"
+//    when
+//        JobC
+//    then
+//end
 
         
 

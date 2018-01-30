@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-public class FileItem extends BaseFact implements Serializable {
+public class FileItem  implements BaseFact, Serializable {
 	/**
 	 * 
 	 */
@@ -15,7 +15,6 @@ public class FileItem extends BaseFact implements Serializable {
 	private int     data_filesize;
 	
 	public FileItem() {
-		setType(FileItem.class.getSimpleName());
 	}
 	
 	
@@ -46,8 +45,6 @@ public class FileItem extends BaseFact implements Serializable {
 	 */
 	public void setData_filename(String data_filename) {
 		this.data_filename = data_filename;
-		// The ID is simply the file name
-		setFactId(data_filename);
 	}
 
 
@@ -80,6 +77,24 @@ public class FileItem extends BaseFact implements Serializable {
 	 */
 	public void setData_filesize(int data_filesize) {
 		this.data_filesize = data_filesize;
+	}
+
+
+	@Override
+	public String getFactId() {
+		return data_filename;
+	}
+
+
+	@Override
+	public String getType() {
+		return this.getClass().getSimpleName();
+	}
+
+
+	@Override
+	public String getDescription() {
+		return data_filename;
 	}
 	
 	

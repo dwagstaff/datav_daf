@@ -6,35 +6,87 @@ import java.io.Serializable;
  * Entity implementation class for Entity: Step
  *
  */
-public class StepPerformed extends BaseStep implements Serializable, FactSource {
-	private EYesNo answer;
+public class StepPerformed implements BaseStep, Serializable, FactSource {
+    private String stepId;
+    private String description;
+	private EYesNo stepAnswer;
 	
 	private static final long serialVersionUID = 1L;
 
 	
 	public StepPerformed() {
-		setType(StepPerformed.class.getSimpleName());
+		setStepAnswer(EYesNo.Yes);
 	}
 
 
 	public StepPerformed(String stepId, EYesNo answer) {
 		super();
 		setStepId(stepId);
-		setAnswer(answer);
+		setStepAnswer(answer);
 	}
 	
+	
+	public String getDtc() {
+		return stepId.split("/")[0];
+	}
+	
+
 	/**
-	 * @return the answer
+	 * @return the stepId
 	 */
-	public EYesNo getAnswer() {
-		return answer;
+	public String getStepId() {
+		return stepId;
 	}
 
 
 	/**
-	 * @param answer the answer to set
+	 * @param stepId the stepId to set
 	 */
-	public void setAnswer(EYesNo answer) {
-		this.answer = answer;
+	public void setStepId(String stepId) {
+		this.stepId = stepId;
+	}
+
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return "[" + getStepId() + "] " + description;
+	}
+
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	@Override
+	public String getFactId() {
+		return getStepId();
+	}
+
+
+	@Override
+	public String getType() {
+		return getClass().getSimpleName();
+	}
+
+
+	/**
+	 * @return the stepAnswer
+	 */
+	public EYesNo getStepAnswer() {
+		return stepAnswer == null ? EYesNo.Yes : stepAnswer;
+	}
+
+
+	/**
+	 * @param stepAnswer the stepAnswer to set
+	 */
+	public void setStepAnswer(EYesNo stepAnswer) {
+		this.stepAnswer = stepAnswer;
 	}
 }

@@ -1,22 +1,17 @@
 package com.bsquare.datav.trucksidetool.re;
 
-import java.io.Serializable;
-
-
-
-
-public class DTC extends BaseFact implements Serializable, FactSource { 
+public class DTC implements BaseFact, FactSource { 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private String symptomId;
 	private String title;
 	private EYesNo active;
 	private Integer occurrence;
 		
 	public DTC() {
-		setType("DTC");
+		setActive(EYesNo.Yes);
+		setOccurrence(1);
 	}
 
 
@@ -79,7 +74,6 @@ public class DTC extends BaseFact implements Serializable, FactSource {
 	 */
 	public void setSymptomId(String symptomId) {
 		this.symptomId = symptomId;
-		setFactId(symptomId);
 	}
 
 
@@ -96,5 +90,23 @@ public class DTC extends BaseFact implements Serializable, FactSource {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+
+	@Override
+	public String getFactId() {
+		return symptomId;
+	}
+
+
+	@Override
+	public String getType() {
+		return "DTC";
+	}
+
+
+	@Override
+	public String getDescription() {
+		return title;
 	}
 }

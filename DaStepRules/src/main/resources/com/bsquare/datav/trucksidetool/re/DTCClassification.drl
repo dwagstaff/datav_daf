@@ -1,4 +1,4 @@
-package com.bsquare.datav.da;
+package com.bsquare.datav.trucksidetool.re;
 import com.bsquare.datav.trucksidetool.re.DTC;
 import com.bsquare.datav.trucksidetool.re.DtcClassification;
 rule "Classify DTC P0A30"

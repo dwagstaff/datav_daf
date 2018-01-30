@@ -1,4 +1,4 @@
-package com.bsquare.datav.da;
+package com.bsquare.datav.trucksidetool.re;
 import com.bsquare.datav.trucksidetool.re.DTC;
 import com.bsquare.datav.trucksidetool.re.PossibleStep;
 import com.bsquare.datav.trucksidetool.re.AdjustScore;
@@ -51,8 +51,7 @@ rule "Add steps for DTC P0046"
 	when
 		DTC(symptomId=="P0046")
 	then
-		insertLogical(new PossibleStep("P0046/This DTC may be caused by a (temporary) VTG turbocharger
-					nozzle ring blockage issue due to:"));
+		insertLogical(new PossibleStep("P0046/This DTC may be caused by a (temporary) VTG turbocharger					nozzle ring blockage issue due to:"));
 		insertLogical(new PossibleStep("P0046/1A"));
 		insertLogical(new PossibleStep("P0046/1A-YES"));
 		insertLogical(new PossibleStep("P0046/1A-NO"));

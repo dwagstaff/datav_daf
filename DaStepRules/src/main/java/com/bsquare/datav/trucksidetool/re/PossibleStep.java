@@ -10,18 +10,19 @@ import org.kie.api.definition.type.PropertyReactive;
  *
  */
 @PropertyReactive
-public class PossibleStep extends BaseStep implements Serializable {
+public class PossibleStep  implements BaseStep, Serializable {
 	private static final long serialVersionUID = 1L;
-	private double score;
-	
+    private String stepId;
+    private String description;
+    private Double score;
+    
 	public PossibleStep() {
-		score= 0.0f;
+		score= 0.0;
 	}
 	
 	public PossibleStep(String stepId) {
 		super();
 		setStepId(stepId);
-		setParentSymptomId(stepId.split("/")[0]);
 	}
 	
 	
@@ -54,6 +55,47 @@ public class PossibleStep extends BaseStep implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
+	@Override
+	public String getFactId() {
+		return getStepId();
+	}
+
+	@Override
+	public String getType() {
+		return getClass().getSimpleName();
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public String getStepId() {
+		return stepId;
+	}
+
+	/**
+	 * @param stepId the stepId to set
+	 */
+	public void setStepId(String stepId) {
+		this.stepId = stepId;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @param score the score to set
+	 */
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
 	
 }

@@ -1,4 +1,4 @@
-package com.bsquare.datav.da;
+package com.bsquare.datav.trucksidetool.re;
 import com.bsquare.datav.trucksidetool.re.StepPerformed;
 import com.bsquare.datav.trucksidetool.re.AdjustScore;
 import com.bsquare.datav.trucksidetool.re.EYesNo;
