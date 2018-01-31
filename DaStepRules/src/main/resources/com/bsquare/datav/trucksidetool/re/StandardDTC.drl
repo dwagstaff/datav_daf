@@ -12,9 +12,22 @@ query "Steps"
     s: PossibleStep(  )
 end
 
-// Query to return a list of all Adjustments made
+// Query to return a list of Conclusions
+query "Conclusions"
+    c: Conclusion(  )
+end
+
+// Query to return list of Adjustments
 query "Adjustments"
-    a: AdjustScore(  )
+    s: AdjustScore(  )
+end
+
+// Convert any Strings into a Conclusion
+rule "Convert Strings into Conclusions"
+    when
+        $s: String()
+    then
+        insert(new Conclusion($s));
 end
 
 
@@ -56,7 +69,7 @@ rule "Add Rationality Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Rationality )
-        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
         insertLogical( new AdjustScore($stepId, 5.0, "DTC is " + $class) );
 end
@@ -65,7 +78,7 @@ rule "Add Plausibility Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Plausibility )
-        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
         insertLogical( new AdjustScore($stepId, 4.0, "DTC is " + $class) );
 end
@@ -75,7 +88,7 @@ rule "Add Communication Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Communication )
-        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
         insertLogical( new AdjustScore($stepId, 3.0, "DTC is " + $class) );
 end
@@ -84,7 +97,7 @@ rule "Add Event Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Event )
-        PossibleStep( parentSymptomId == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
         insertLogical( new AdjustScore($stepId, 2.0, "DTC is " + $class) );
 end

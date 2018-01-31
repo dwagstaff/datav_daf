@@ -16,6 +16,11 @@ public class Conclusion {
 		setId(String.valueOf(idc++));
 	}
 	
+	public Conclusion(String value) {
+		this();
+		setDescription(value);
+	}
+	
 	public String getId() {
 		return this.id;
 	}

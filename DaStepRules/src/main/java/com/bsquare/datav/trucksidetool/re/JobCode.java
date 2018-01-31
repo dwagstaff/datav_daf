@@ -24,6 +24,11 @@ public class JobCode implements BaseFact, Serializable, FactSource {
 		probability= 0.5;
 	}
 
+	public JobCode(String jobCode, String description) {
+		this();
+		setProbableCauseId(jobCode);
+		setTitle(description);
+	}
 
     /**
      * @return the probableCauseId

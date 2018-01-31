@@ -8,6 +8,8 @@ package com.bsquare.datav.trucksidetool.re;
  *
  */
 public class AdjustScore {
+	private String adjid;
+	private static int nextID= 0;
 	private String stepId;
 	private Double adjustment;
 	private String reason;
@@ -21,13 +23,14 @@ public class AdjustScore {
 	 * @param reason
 	 */
 	public AdjustScore(String stepId, Double adjustment, String reason) {
-		super();
+		this();
 		this.stepId = stepId;
 		this.adjustment = adjustment;
 		this.reason = reason;
 	}
 	
 	public AdjustScore() {
+		setAdjid(String.valueOf(nextID++));
 		adjustment= 0.0;
 	}
 	
@@ -84,6 +87,21 @@ public class AdjustScore {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	/**
+	 * @return the adjid
+	 */
+	public String getAdjid() {
+		return adjid;
+	}
+
+	/**
+	 * @param adjid the adjid to set
+	 */
+	public void setAdjid(String adjid) {
+		this.adjid = adjid;
+	}
+
 	
 	
 }

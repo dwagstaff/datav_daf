@@ -15,16 +15,24 @@ public class PossibleStep  implements BaseStep, Serializable {
     private String stepId;
     private String description;
     private Double score;
+    private String stepAnswer;
+    
     
 	public PossibleStep() {
 		score= 0.0;
+		setStepAnswer(EYesNo.Yes.toString());
 	}
 	
 	public PossibleStep(String stepId) {
-		super();
+		this();
+		setDescription("N/A");
 		setStepId(stepId);
 	}
 	
+	public PossibleStep(String stepId, String description) {
+		this(stepId);
+		setDescription(description);
+	}
 	
 	/**
 	 * @return the score
@@ -97,5 +105,26 @@ public class PossibleStep  implements BaseStep, Serializable {
 		this.score = score;
 	}
 
+	/**
+	 * Return the DTC component of the StepID
+	 * @return
+	 */
+	public String getDtc() {
+		return getStepId().split("/")[0];
+	}
+
+	/**
+	 * @return the stepAnswer
+	 */
+	public String getStepAnswer() {
+		return stepAnswer;
+	}
+
+	/**
+	 * @param stepAnswer the stepAnswer to set
+	 */
+	public void setStepAnswer(String stepAnswer) {
+		this.stepAnswer = stepAnswer;
+	}
 	
 }
