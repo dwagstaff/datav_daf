@@ -1,0 +1,16 @@
+package com.bsquare.datav.trucksidetool.re;
+import com.bsquare.datav.trucksidetool.re.DTC;
+import com.bsquare.datav.trucksidetool.re.PossibleStep;
+import com.bsquare.datav.trucksidetool.re.AdjustScore;
+import com.bsquare.datav.trucksidetool.re.EYesNo;
+
+
+// Raise score of steps associated with active DTCs
+rule "Raise score of active DTC"
+    when
+        DTC( $dtc: symptomId, active == EYesNo.Yes )
+        $ps: PossibleStep(dtc == $dtc, $stepId: stepId )
+    then
+        insert( new AdjustScore($stepId, 5.0, "Increase score of active DTC") );
+end
+        

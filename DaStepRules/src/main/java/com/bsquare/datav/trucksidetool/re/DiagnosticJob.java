@@ -10,7 +10,7 @@ package com.bsquare.datav.trucksidetool.re;
 public class DiagnosticJob {
 	private String diagnosticId;
 	private String description;
-	
+	private int usedCount= 0;
 	
 	
 	/**
@@ -48,5 +48,19 @@ public class DiagnosticJob {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+    /**
+     * @return the usedCount
+     */
+    public int getUsedCount() {
+        return usedCount;
+    }
+
+    /**
+     * @param usedCount the usedCount to set
+     */
+    public void setUsedCount(int usedCount) {
+        this.usedCount = usedCount;
+    }
 	
 }

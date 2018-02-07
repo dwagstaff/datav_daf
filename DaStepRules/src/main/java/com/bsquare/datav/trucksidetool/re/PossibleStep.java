@@ -16,6 +16,7 @@ public class PossibleStep  implements BaseStep, Serializable {
     private String description;
     private Double score;
     private String stepAnswer;
+    private String diagnosticJobCode;
     
     
 	public PossibleStep() {
@@ -126,5 +127,19 @@ public class PossibleStep  implements BaseStep, Serializable {
 	public void setStepAnswer(String stepAnswer) {
 		this.stepAnswer = stepAnswer;
 	}
+
+    /**
+     * @return the diagnosticJobCode
+     */
+    public String getDiagnosticJobCode() {
+        return diagnosticJobCode;
+    }
+
+    /**
+     * @param diagnosticJobCode the diagnosticJobCode to set
+     */
+    public void setDiagnosticJobCode(String diagnosticJobCode) {
+        this.diagnosticJobCode = diagnosticJobCode;
+    }
 	
 }

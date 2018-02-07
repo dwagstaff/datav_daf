@@ -13,6 +13,9 @@ public class FileItem  implements BaseFact, Serializable {
 	private String  data_filename;
 	private Date    data_date_created;
 	private int     data_filesize;
+	private String dtcs;
+	private String jobCodes;
+	
 	
 	public FileItem() {
 	}
@@ -96,6 +99,38 @@ public class FileItem  implements BaseFact, Serializable {
 	public String getDescription() {
 		return data_filename;
 	}
+
+
+    /**
+     * @return the dtcs
+     */
+    public String getDtcs() {
+        return dtcs;
+    }
+
+
+    /**
+     * @param dtcs the dtcs to set
+     */
+    public void setDtcs(String dtcs) {
+        this.dtcs = dtcs;
+    }
+
+
+    /**
+     * @return the jobCodes
+     */
+    public String getJobCodes() {
+        return jobCodes;
+    }
+
+
+    /**
+     * @param jobCodes the jobCodes to set
+     */
+    public void setJobCodes(String jobCodes) {
+        this.jobCodes = jobCodes;
+    }
 	
 	
 }

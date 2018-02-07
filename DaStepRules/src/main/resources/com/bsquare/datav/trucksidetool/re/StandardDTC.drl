@@ -4,7 +4,8 @@ import com.bsquare.datav.trucksidetool.re.PossibleStep;
 import com.bsquare.datav.trucksidetool.re.DTC;
 import com.bsquare.datav.trucksidetool.re.DtcClassification;
 import com.bsquare.datav.trucksidetool.re.AdjustScore;
-import com.bsquare.datav.trucksidetool.re.StepPerformed
+import com.bsquare.datav.trucksidetool.re.StepPerformed;
+
 
 
 // Query to Return a list of all possible steps
@@ -30,6 +31,71 @@ rule "Convert Strings into Conclusions"
         insert(new Conclusion($s));
 end
 
+// Assign Diagnostic Job Codes to PossibleSteps
+rule "Assign Diagnostic Job to Possible Step"
+    no-loop 
+    when
+        $ps:  PossibleStep( $stepId: stepId  )
+        $djs: DiagnosticJobToStep($diagId:diagnosticID, stepId == $stepId )
+    then
+        modify($ps) {
+            setDiagnosticJobCode($diagId);
+        }
+end
+
+
+// Compute the number of times each Diagnostic step is used
+rule "Compute usage count for a diagnostic step"
+    no-loop 
+    when
+        $ps:  PossibleStep( $stepId: stepId  )
+        $djs: DiagnosticJobToStep($diagId:diagnosticID, stepId == $stepId )
+        $dj:  DiagnosticJob(diagnosticId == $diagId  )
+    then
+        modify($dj) {
+            setUsedCount($dj.getUsedCount() + 1);
+        }
+end
+
+
+// Bump Store of Steps which reference a diagnostic step which has more then one reference
+rule "Increase score of steps which have a common diagnostic step"
+    when
+        $ps:  PossibleStep( $stepId: stepId  )
+        $djs: DiagnosticJobToStep($diagId:diagnosticID, stepId == $stepId )
+        $dj:  DiagnosticJob(diagnosticId == $diagId, usedCount > 1  )
+    then
+        String msg= String.format("Diag. %s referenced %d times", $diagId, $dj.getUsedCount());
+        insertLogical(new AdjustScore($stepId, 20.0 * $dj.getUsedCount(), msg));
+end
+
+
+
+// Adjust score of Steps which are included in Predicted Cause Job Code Diagnostics
+rule "Adjust Cause Job Code Diagnostics"
+    when
+        $jc:   PredictedJobCode($jcid:probableCauseId)
+        $jcts: JobCodeToStep( jobCode == $jcid, $stepId: stepId  )
+        $ps:   PossibleStep(stepId == $stepId)
+    then
+        String msg= String.format("Prescribed by job code %s", $jcid);        
+        insertLogical(new AdjustScore($stepId, 1000.0 * $jc.getProbability(), msg));
+end
+
+
+
+// Lower score of steps which diagnose the same issue
+rule "Same diagnostic"
+    when
+        $ps1: PossibleStep( $step1: stepId  )
+        $ds1: DiagnosticJobToStep($dsid1: diagnosticID, stepId == $step1  )
+        $ps2: PossibleStep( $step2: stepId , stepId > $step1 )
+        $ds2: DiagnosticJobToStep($dsid2: diagnosticID, stepId == $step2, diagnosticID == $dsid1  )
+    then
+        String msg= String.format("Duplicate of diagnostic %s covered in step %s", $dsid1, $step1  );
+        insertLogical(new AdjustScore($step2, -1000.0, msg));
+end
+
 
 rule "Adjust Step Scores"
     salience -10
@@ -52,7 +118,7 @@ rule "Rule Completed"
         modify($ps) {
             setScore(-1.0);
         };
-        insert(new AdjustScore($stepID, -1.0, "Step Completed"));
+        insert(new AdjustScore($stepID, -10000.0, "Step Performed"));
 end
 
 
