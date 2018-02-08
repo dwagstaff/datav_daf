@@ -1,0 +1,52 @@
+//created on: Feb 7, 2018
+package com.bsquare.datav.trucksidetool.re
+import com.bsquare.datav.trucksidetool.re.DTCIn
+import com.bsquare.datav.trucksidetool.re.NextStep
+import com.bsquare.datav.trucksidetool.re.CurrentStep
+import com.bsquare.datav.trucksidetool.re.StepTaken
+import com.bsquare.datav.trucksidetool.re.DTC
+import com.bsquare.datav.trucksidetool.re.EYesNo
+import com.bsquare.datav.trucksidetool.re.AdjustScore
+import com.bsquare.datav.trucksidetool.re.StepPerformed
+import com.bsquare.datav.trucksidetool.re.PossibleStep
+import java.lang.Integer
+import java.lang.Math
+
+
+rule "Convert DTCin to DTC"
+    when
+        $d: DTCIn(  )
+    then
+        DTC dtc= new DTC();
+        dtc.setTitle($d.getCode());
+        dtc.setSymptomId($d.getCode());
+        dtc.setOccurrence($d.getOccurrences());
+        dtc.setActive(EYesNo.Yes);
+        insertLogical(dtc);
+end
+
+rule "Convert StepTaken in StepPerformed"
+	when
+        $s: StepTaken(  )		
+	then
+	   StepPerformed sp= new StepPerformed();
+	   sp.setStepId($s.getStepId());
+	   sp.setDescription("N/A");
+	   sp.setStepAnswer($s.getYesResponse() ? EYesNo.Yes : EYesNo.No);
+	   insertLogical(sp);	
+end
+
+rule "Convert PossibleStep to NextStep"
+    salience -20
+	when
+        $n: PossibleStep(  )		
+	then
+		NextStep ns= new NextStep();
+		ns.setStepId($n.getStepId());
+		ns.setScore( (int)Math.round($n.getScore()));
+		insertLogical(ns);
+end
+
+query "StepOrderQuery"
+    nextSteps: NextStep(  )
+end

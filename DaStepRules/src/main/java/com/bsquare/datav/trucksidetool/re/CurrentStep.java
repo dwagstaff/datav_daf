@@ -1,20 +1,17 @@
 package com.bsquare.datav.trucksidetool.re;
 
-public class StepTaken implements java.io.Serializable {
+public class CurrentStep {
     static final long serialVersionUID = 1L;
 
     private String stepId;
 
-    private Integer order;
-
     private Boolean yesResponse;
 
-    public StepTaken() {
+    public CurrentStep() {
     }
 
-    public StepTaken(String stepId, Integer order, Boolean yesResponse) {
+    public CurrentStep(String stepId, Boolean yesResponse) {
         this.stepId = stepId;
-        this.order = order;
         this.yesResponse = yesResponse;
     }
 
@@ -24,14 +21,6 @@ public class StepTaken implements java.io.Serializable {
 
     public void setStepId(String stepId) {
         this.stepId = stepId;
-    }
-
-    public Integer getOrder() {
-        return this.order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public Boolean getYesResponse() {
