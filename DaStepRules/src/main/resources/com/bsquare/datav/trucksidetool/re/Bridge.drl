@@ -27,12 +27,15 @@ end
 
 rule "Convert StepTaken in StepPerformed"
 	when
-        $s: StepTaken(  )		
+        $s: StepTaken($answer:yesResponse  )		
 	then
 	   StepPerformed sp= new StepPerformed();
 	   sp.setStepId($s.getStepId());
 	   sp.setDescription("N/A");
-	   sp.setStepAnswer($s.getYesResponse() ? EYesNo.Yes : EYesNo.No);
+	   if( $answer == null )
+	       sp.setStepAnswer(EYesNo.Yes);
+	   else
+	       sp.setStepAnswer($answer ? EYesNo.Yes : EYesNo.No);
 	   insertLogical(sp);	
 end
 

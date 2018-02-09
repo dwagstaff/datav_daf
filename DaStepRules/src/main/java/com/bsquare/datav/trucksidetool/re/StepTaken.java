@@ -1,6 +1,6 @@
 package com.bsquare.datav.trucksidetool.re;
 
-public class StepTaken implements java.io.Serializable {
+public class StepTaken {
     static final long serialVersionUID = 1L;
 
     private String stepId;
