@@ -1,0 +1,12 @@
+package com.bsquare.datav.trucksidetool.re;
+
+
+// Bump the priority of DTCs with Occurence count > 1 
+rule "DTC Occurrence > 1"
+    when
+        $dtc: DTC( $code: symptomId, $count: occurrence, occurrence > 1 )
+        $ps: PossibleStep(dtc == $code, $stepId: stepId )
+    then
+        insert( new AdjustScore($stepId, 5.0 * $count, "DTC occurrence count is " + $count) );
+end
+        

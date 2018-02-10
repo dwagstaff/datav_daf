@@ -1,0 +1,12 @@
+package com.bsquare.datav.trucksidetool.re;
+
+
+// Bump the priority of all U1011 by a large amount 
+rule "Give high priority to U1011"
+    when
+        $dtc: DTC( symptomId  == "U1011")
+        $ps: PossibleStep(dtc  == "U1011", $stepId: stepId )
+    then
+        insert( new AdjustScore($stepId, 1000.0, "Diagnose U1011 first") );
+end
+        

@@ -1,6 +1,6 @@
 //created on: Feb 7, 2018
 package com.bsquare.datav.trucksidetool.re
-import com.bsquare.datav.trucksidetool.re.DTCIn
+import com.bsquare.datav.trucksidetool.re.DtcIn
 import com.bsquare.datav.trucksidetool.re.NextStep
 import com.bsquare.datav.trucksidetool.re.CurrentStep
 import com.bsquare.datav.trucksidetool.re.StepTaken
@@ -15,7 +15,7 @@ import java.lang.Math
 
 rule "Convert DTCin to DTC"
     when
-        $d: DTCIn(  )
+        $d: DtcIn(  )
     then
         DTC dtc= new DTC();
         dtc.setTitle($d.getCode());
@@ -27,15 +27,12 @@ end
 
 rule "Convert StepTaken in StepPerformed"
 	when
-        $s: StepTaken($answer:yesResponse  )		
+        $s: StepTaken(  )		
 	then
 	   StepPerformed sp= new StepPerformed();
 	   sp.setStepId($s.getStepId());
 	   sp.setDescription("N/A");
-	   if( $answer == null )
-	       sp.setStepAnswer(EYesNo.Yes);
-	   else
-	       sp.setStepAnswer($answer ? EYesNo.Yes : EYesNo.No);
+	   sp.setStepAnswer($s.getYesResponse() ? EYesNo.Yes : EYesNo.No);
 	   insertLogical(sp);	
 end
 
@@ -50,6 +47,3 @@ rule "Convert PossibleStep to NextStep"
 		insertLogical(ns);
 end
 
-query "StepOrderQuery"
-    nextSteps: NextStep(  )
-end

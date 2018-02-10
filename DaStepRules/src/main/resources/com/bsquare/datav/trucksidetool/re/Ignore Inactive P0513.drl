@@ -1,16 +1,12 @@
 package com.bsquare.datav.trucksidetool.re;
-import com.bsquare.datav.trucksidetool.re.DTC;
-import com.bsquare.datav.trucksidetool.re.PossibleStep;
-import com.bsquare.datav.trucksidetool.re.AdjustScore;
-import com.bsquare.datav.trucksidetool.re.EYesNo;
 
-
-// Ignore inactive P0513 
-rule "Ignore inactive P0513"
+// Ignore inactive P0513 if other DTCs are present 
+rule "Ignore inactive P0513 if other DTCs present"
     when
         $dtc: DTC( symptomId  == "P0513", active  == EYesNo.No )
         $ps: PossibleStep(dtc  == "P0513", $stepId: stepId )
+        DTC( symptomId != "P0513" )
     then
-        insert( new AdjustScore($stepId, -1000.0, "Ignore inactive P0513") );
+        insert( new AdjustScore($stepId, -1000.0, "Ignore inactive P0513 /w other DTCs present") );
 end
         

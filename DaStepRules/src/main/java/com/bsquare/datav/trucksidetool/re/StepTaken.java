@@ -1,6 +1,6 @@
 package com.bsquare.datav.trucksidetool.re;
 
-public class StepTaken {
+public class StepTaken implements java.io.Serializable {
     static final long serialVersionUID = 1L;
 
     private String stepId;
@@ -41,4 +41,12 @@ public class StepTaken {
     public void setYesResponse(Boolean yesResponse) {
         this.yesResponse = yesResponse;
     }
+    
+    public boolean answeredYes() {
+        if( this.yesResponse == null )
+            return true;
+        else
+            return this.yesResponse;
+    }
+    
 }

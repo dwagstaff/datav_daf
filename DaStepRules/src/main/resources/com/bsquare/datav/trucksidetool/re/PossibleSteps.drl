@@ -675,7 +675,6 @@ rule "Add steps for DTC P0524"
 	when
 		DTC(symptomId=="P0524")
 	then
-		insertLogical(new PossibleStep("P0524/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P0524/1A","Step 1A - Check the oil level with the mechanical dipstick"));
 		insertLogical(new PossibleStep("P0524/1A-YES","Step 1A - Check the oil level with the mechanical dipstick"));
 		insertLogical(new PossibleStep("P0524/1A-NO","Step 1A - Check the oil level with the mechanical dipstick"));
@@ -709,7 +708,7 @@ rule "Add steps for DTC P0524"
 		insertLogical(new PossibleStep("P0524/7A","Step 7A - Reset the DTCs."));
 		insertLogical(new PossibleStep("P0524/7A-YES","Step 7A - Reset the DTCs."));
 		insertLogical(new PossibleStep("P0524/7A-NO","Step 7A - Reset the DTCs."));
-		insertLogical(new AdjustScore("P0524/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P0524/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P061B"
@@ -1015,7 +1014,6 @@ rule "Add steps for DTC P1048"
 	when
 		DTC(symptomId=="P1048")
 	then
-		insertLogical(new PossibleStep("P1048/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P1048/1A","Step 1A - Check for active VTG position-related DTCs in combination with P1048."));
 		insertLogical(new PossibleStep("P1048/1A-YES","Step 1A - Check for active VTG position-related DTCs in combination with P1048."));
 		insertLogical(new PossibleStep("P1048/1A-NO","Step 1A - Check for active VTG position-related DTCs in combination with P1048."));
@@ -1025,14 +1023,13 @@ rule "Add steps for DTC P1048"
 		insertLogical(new PossibleStep("P1048/2A","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("P1048/2A-YES","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("P1048/2A-NO","Step 2A - Clear the DTCs."));
-		insertLogical(new AdjustScore("P1048/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P1048/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P1049"
 	when
 		DTC(symptomId=="P1049")
 	then
-		insertLogical(new PossibleStep("P1049/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P1049/1A","Step 1A - Check for active VTG position-related DTCs in combination with P1049."));
 		insertLogical(new PossibleStep("P1049/1A-YES","Step 1A - Check for active VTG position-related DTCs in combination with P1049."));
 		insertLogical(new PossibleStep("P1049/1A-NO","Step 1A - Check for active VTG position-related DTCs in combination with P1049."));
@@ -1042,7 +1039,7 @@ rule "Add steps for DTC P1049"
 		insertLogical(new PossibleStep("P1049/2A","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("P1049/2A-YES","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("P1049/2A-NO","Step 2A - Clear the DTCs."));
-		insertLogical(new AdjustScore("P1049/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P1049/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P104B"
@@ -1145,7 +1142,6 @@ rule "Add steps for DTC P1086"
 	when
 		DTC(symptomId=="P1086")
 	then
-		insertLogical(new PossibleStep("P1086/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P1086/1A","Step 1A - Review customer complaint"));
 		insertLogical(new PossibleStep("P1086/1A-YES","Step 1A - Review customer complaint"));
 		insertLogical(new PossibleStep("P1086/1A-NO","Step 1A - Review customer complaint"));
@@ -1158,7 +1154,7 @@ rule "Add steps for DTC P1086"
 		insertLogical(new PossibleStep("P1086/3A","Step 3A - Clear the DTCs."));
 		insertLogical(new PossibleStep("P1086/3A-YES","Step 3A - Clear the DTCs."));
 		insertLogical(new PossibleStep("P1086/3A-NO","Step 3A - Clear the DTCs."));
-		insertLogical(new AdjustScore("P1086/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P1086/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P1088"
@@ -1189,7 +1185,6 @@ rule "Add steps for DTC P1091"
 	when
 		DTC(symptomId=="P1091")
 	then
-		insertLogical(new PossibleStep("P1091/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P1091/1A","Step 1A - Check if P1091 is active"));
 		insertLogical(new PossibleStep("P1091/1A-YES","Step 1A - Check if P1091 is active"));
 		insertLogical(new PossibleStep("P1091/1A-NO","Step 1A - Check if P1091 is active"));
@@ -1202,7 +1197,7 @@ rule "Add steps for DTC P1091"
 		insertLogical(new PossibleStep("P1091/4A","Step 4A - Clear the DTCs. (H 1444 430226 072 000)"));
 		insertLogical(new PossibleStep("P1091/4A-YES","Step 4A - Clear the DTCs. (H 1444 430226 072 000)"));
 		insertLogical(new PossibleStep("P1091/4A-NO","Step 4A - Clear the DTCs. (H 1444 430226 072 000)"));
-		insertLogical(new AdjustScore("P1091/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P1091/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P1110"
@@ -2100,12 +2095,11 @@ rule "Add steps for DTC P1496"
 	when
 		DTC(symptomId=="P1496")
 	then
-		insertLogical(new PossibleStep("P1496/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P1496/1A","Step 1A - Check for other DTCs in combination with P1496"));
 		insertLogical(new PossibleStep("P1496/1A-YES","Step 1A - Check for other DTCs in combination with P1496"));
 		insertLogical(new PossibleStep("P1496/1A-NO","Step 1A - Check for other DTCs in combination with P1496"));
 		insertLogical(new PossibleStep("P1496/2A","Step 2A - Contact PACCAR Engine Support Center"));
-		insertLogical(new AdjustScore("P1496/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P1496/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P1497"
@@ -4204,7 +4198,6 @@ rule "Add steps for DTC P3857"
 	when
 		DTC(symptomId=="P3857")
 	then
-		insertLogical(new PossibleStep("P3857/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P3857/1A","Step 1A - Check for active DTCs"));
 		insertLogical(new PossibleStep("P3857/1A-YES","Step 1A - Check for active DTCs"));
 		insertLogical(new PossibleStep("P3857/1A-NO","Step 1A - Check for active DTCs"));
@@ -4250,14 +4243,13 @@ rule "Add steps for DTC P3857"
 		insertLogical(new PossibleStep("P3857/6A","Step 6A - Reset the DTCs"));
 		insertLogical(new PossibleStep("P3857/6A-YES","Step 6A - Reset the DTCs"));
 		insertLogical(new PossibleStep("P3857/6A-NO","Step 6A - Reset the DTCs"));
-		insertLogical(new AdjustScore("P3857/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P3857/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P3858"
 	when
 		DTC(symptomId=="P3858")
 	then
-		insertLogical(new PossibleStep("P3858/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P3858/1A","Step 1A - Check for active DTCs"));
 		insertLogical(new PossibleStep("P3858/1A-YES","Step 1A - Check for active DTCs"));
 		insertLogical(new PossibleStep("P3858/1A-NO","Step 1A - Check for active DTCs"));
@@ -4303,7 +4295,7 @@ rule "Add steps for DTC P3858"
 		insertLogical(new PossibleStep("P3858/6A","Step 6A - Reset the DTCs"));
 		insertLogical(new PossibleStep("P3858/6A-YES","Step 6A - Reset the DTCs"));
 		insertLogical(new PossibleStep("P3858/6A-NO","Step 6A - Reset the DTCs"));
-		insertLogical(new AdjustScore("P3858/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P3858/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P3859"
@@ -4746,7 +4738,6 @@ rule "Add steps for DTC P3912"
 	when
 		DTC(symptomId=="P3912")
 	then
-		insertLogical(new PossibleStep("P3912/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("P3912/1A","Step 1A - Check for active DTCs"));
 		insertLogical(new PossibleStep("P3912/1A-YES","Step 1A - Check for active DTCs"));
 		insertLogical(new PossibleStep("P3912/1A-NO","Step 1A - Check for active DTCs"));
@@ -4792,7 +4783,7 @@ rule "Add steps for DTC P3912"
 		insertLogical(new PossibleStep("P3912/6A","Step 6A - Reset the DTCs"));
 		insertLogical(new PossibleStep("P3912/6A-YES","Step 6A - Reset the DTCs"));
 		insertLogical(new PossibleStep("P3912/6A-NO","Step 6A - Reset the DTCs"));
-		insertLogical(new AdjustScore("P3912/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("P3912/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC P3913"
@@ -5640,7 +5631,6 @@ rule "Add steps for DTC U1011"
 	when
 		DTC(symptomId=="U1011")
 	then
-		insertLogical(new PossibleStep("U1011/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("U1011/1A","Step 1A - Check DTC status."));
 		insertLogical(new PossibleStep("U1011/1A-YES","Step 1A - Check DTC status."));
 		insertLogical(new PossibleStep("U1011/1A-NO","Step 1A - Check DTC status."));
@@ -5701,14 +5691,13 @@ rule "Add steps for DTC U1011"
 		insertLogical(new PossibleStep("U1011/5A","Step 5A - Clear the DTCs."));
 		insertLogical(new PossibleStep("U1011/5A-YES","Step 5A - Clear the DTCs."));
 		insertLogical(new PossibleStep("U1011/5A-NO","Step 5A - Clear the DTCs."));
-		insertLogical(new AdjustScore("U1011/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("U1011/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC U1048"
 	when
 		DTC(symptomId=="U1048")
 	then
-		insertLogical(new PossibleStep("U1048/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("U1048/1A","Step 1A - Check for active VTG position-related DTCs in combination with U1048."));
 		insertLogical(new PossibleStep("U1048/1A-YES","Step 1A - Check for active VTG position-related DTCs in combination with U1048."));
 		insertLogical(new PossibleStep("U1048/1A-NO","Step 1A - Check for active VTG position-related DTCs in combination with U1048."));
@@ -5718,14 +5707,13 @@ rule "Add steps for DTC U1048"
 		insertLogical(new PossibleStep("U1048/2A","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("U1048/2A-YES","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("U1048/2A-NO","Step 2A - Clear the DTCs."));
-		insertLogical(new AdjustScore("U1048/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("U1048/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC U1049"
 	when
 		DTC(symptomId=="U1049")
 	then
-		insertLogical(new PossibleStep("U1049/MISC","Misc. Information"));
 		insertLogical(new PossibleStep("U1049/1A","Step 1A - Check for active VTG position-related DTCs in combination with U1049."));
 		insertLogical(new PossibleStep("U1049/1A-YES","Step 1A - Check for active VTG position-related DTCs in combination with U1049."));
 		insertLogical(new PossibleStep("U1049/1A-NO","Step 1A - Check for active VTG position-related DTCs in combination with U1049."));
@@ -5735,7 +5723,7 @@ rule "Add steps for DTC U1049"
 		insertLogical(new PossibleStep("U1049/2A","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("U1049/2A-YES","Step 2A - Clear the DTCs."));
 		insertLogical(new PossibleStep("U1049/2A-NO","Step 2A - Clear the DTCs."));
-		insertLogical(new AdjustScore("U1049/MISC",1.0,"First step in diagnostics")); 
+		insertLogical(new AdjustScore("U1049/1A",1.0,"First step in diagnostics")); 
 end
 
 rule "Add steps for DTC U104C"

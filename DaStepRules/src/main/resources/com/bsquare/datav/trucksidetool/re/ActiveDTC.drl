@@ -1,8 +1,4 @@
 package com.bsquare.datav.trucksidetool.re;
-import com.bsquare.datav.trucksidetool.re.DTC;
-import com.bsquare.datav.trucksidetool.re.PossibleStep;
-import com.bsquare.datav.trucksidetool.re.AdjustScore;
-import com.bsquare.datav.trucksidetool.re.EYesNo;
 
 
 // Raise score of steps associated with active DTCs

@@ -1,0 +1,11 @@
+package com.bsquare.datav.trucksidetool.re;
+
+// If onlye inactive P0513, skip to Step #4 
+rule "If only inactive P0513, do step #4"
+    when
+        $dtc: DTC( symptomId  == "P0513", active  == EYesNo.No )
+        not  DTC( symptomId != "P0513" )
+    then
+        insert( new AdjustScore("P0513/4A", 1000.0, "Only inactive P0513 present") );
+end
+        
