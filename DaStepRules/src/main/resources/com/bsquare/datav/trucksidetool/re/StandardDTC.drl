@@ -31,6 +31,21 @@ rule "Convert Strings into Conclusions"
         insert(new Conclusion($s));
 end
 
+// If there are not steps with score greater then 0
+// insert a No Steps Available step
+rule "No non-negative Step Scores"
+    salience -20
+    when
+        not PossibleStep( score >= 0.0 )
+    then
+        PossibleStep ps= new PossibleStep();
+        ps.setStepId("NoStepAvailable");
+        ps.setScore(1000.0);
+        ps.setDescription("No steps are available at this point");
+        insert(ps);
+end
+
+
 // Assign Diagnostic Job Codes to PossibleSteps
 rule "Assign Diagnostic Job to Possible Step"
     no-loop 
