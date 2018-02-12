@@ -133,7 +133,7 @@ rule "Rule Completed"
         modify($ps) {
             setScore(-1.0);
         };
-        insert(new AdjustScore($stepID, -10000.0, "Step Performed"));
+        insert(new AdjustScore($stepID, -100000.0, "Step Performed"));
 end
 
 

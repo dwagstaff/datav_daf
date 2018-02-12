@@ -46,8 +46,7 @@ public class PossibleStep  implements BaseStep, Serializable {
 	 * @param score the score to set
 	 */
 	public void setScore(double score) {
-		if( this.score >= 0.0 )
-			this.score = score;
+		this.score = score;
 	}
 
 	/* (non-Javadoc)
