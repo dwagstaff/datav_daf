@@ -1,0 +1,31 @@
+package com.bsquare.datav.trucksidetool.re;
+
+
+ //If P1086 is present icw one of: P0093, P0094, P00BA, P1091, P228D, give P1086 a lower priority       
+ rule "If P1086 is present icw one of: P0093, P0094, P00BA, P1091, P228D, give P1086 a lower priority"
+    when
+       DTC( symptomId  == "P1086")
+       DTC( symptomId == "P0093" || == "P0094" || == "P00BA" || == "P1091" || == "P228D" )
+       $ps: PossibleStep(dtc  == "P1086", $stepId: stepId )
+    then
+        insert( new AdjustScore($stepId, -1000.0, "If P1086 is present icw one of: P0093, P0094, P00BA, P1091, P228D, give P1086 a lower priority") );
+end
+
+//Lower the score of P150F, P250F, P250A, P252F
+rule "Lower the score of P150F, P250F, P250A, P252F"
+    when
+       DTC($dtc:symptomId,  symptomId == "P150F" || == "P250F" || == "P250A" || == "P252F" )
+       $ps: PossibleStep(dtc  == $dtc, $stepId: stepId )
+    then
+        insert( new AdjustScore($stepId, -100.0, "Lower the score of P150F, P250F, P250A, P252F") );
+end
+
+//Ignore an inactive U1406 if multiple DTC's are present
+rule "Ignore an inactive U1406 if multiple DTC's are present"
+    when
+        DTC(symptomId == "U1406", active  == EYesNo.No)
+        DTC( symptomId != "U1406" )
+        PossibleStep(dtc  == "U1406", $stepId: stepId )
+    then
+        insert( new AdjustScore($stepId, -10000.0, "Ignore an inactive U1406 if multiple DTC's are present") );
+end

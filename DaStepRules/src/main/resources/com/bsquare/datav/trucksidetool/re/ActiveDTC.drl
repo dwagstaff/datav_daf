@@ -2,11 +2,12 @@ package com.bsquare.datav.trucksidetool.re;
 
 
 // Raise score of steps associated with active DTCs
-rule "Raise score of active DTC"
+rule "Raise score of active DTC (other then Events)"
     when
         DTC( $dtc: symptomId, active == EYesNo.Yes )
+        DtcClassification( dtc == $dtc, classification != DtcClassification.Classification.Event )
         $ps: PossibleStep(dtc == $dtc, $stepId: stepId )
     then
-        insert( new AdjustScore($stepId, 5.0, "Increase score of active DTC") );
+        insert( new AdjustScore($stepId, 10000.0, "Increase score of active DTC (other then Events)") );
 end
         

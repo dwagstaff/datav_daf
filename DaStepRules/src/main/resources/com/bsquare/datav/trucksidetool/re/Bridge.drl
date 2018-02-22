@@ -9,6 +9,7 @@ import com.bsquare.datav.trucksidetool.re.EYesNo
 import com.bsquare.datav.trucksidetool.re.AdjustScore
 import com.bsquare.datav.trucksidetool.re.StepPerformed
 import com.bsquare.datav.trucksidetool.re.PossibleStep
+import com.bsquare.datav.trucksidetool.re.PredictedJobCode
 import java.lang.Integer
 import java.lang.Math
 
@@ -17,12 +18,21 @@ rule "Convert DTCin to DTC"
     when
         $d: DtcIn(  )
     then
-        DTC dtc= new DTC();
-        dtc.setTitle($d.getCode());
-        dtc.setSymptomId($d.getCode());
-        dtc.setOccurrence($d.getOccurrences());
-        dtc.setActive(EYesNo.Yes);
-        insertLogical(dtc);
+        if( $d.getCode().startsWith("H") ) {
+            PredictedJobCode pjc= new PredictedJobCode();
+            pjc.setTitle($d.getCode());
+            String p[]= $d.getCode().split("@@");
+            pjc.setProbableCauseId(p[0]);
+            pjc.setProbability(Double.valueOf(p[1]));
+            insertLogical(pjc);
+        } else {
+	        DTC dtc= new DTC();
+	        dtc.setTitle($d.getCode());
+	        dtc.setSymptomId($d.getCode());
+	        dtc.setOccurrence($d.getOccurrences());
+	        dtc.setActive( $d.getActive() ? EYesNo.Yes : EYesNo.No);
+	        insertLogical(dtc);
+	    }
 end
 
 rule "Convert StepTaken in StepPerformed"

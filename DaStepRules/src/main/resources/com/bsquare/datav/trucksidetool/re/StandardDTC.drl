@@ -23,6 +23,12 @@ query "Adjustments"
     s: AdjustScore(  )
 end
 
+query "StepOrderQuery"
+    nextSteps : NextStep()
+end
+
+
+
 // Convert any Strings into a Conclusion
 rule "Convert Strings into Conclusions"
     when
@@ -101,14 +107,22 @@ end
 
 // Lower score of steps which diagnose the same issue
 rule "Same diagnostic"
+    salience -50
     when
-        $ps1: PossibleStep( $step1: stepId  )
+        $ps1: PossibleStep( $step1: stepId )
         $ds1: DiagnosticJobToStep($dsid1: diagnosticID, stepId == $step1  )
-        $ps2: PossibleStep( $step2: stepId , stepId > $step1 )
+        $ps2: PossibleStep( $step2: stepId , stepId != $step1 )
         $ds2: DiagnosticJobToStep($dsid2: diagnosticID, stepId == $step2, diagnosticID == $dsid1  )
     then
-        String msg= String.format("Duplicate of diagnostic %s covered in step %s", $dsid1, $step1  );
-        insertLogical(new AdjustScore($step2, -1000.0, msg));
+        double s1= $ps1.getScore();
+        double s2= $ps2.getScore();
+        if( s2 < s1 ) {
+            String msg= String.format("Duplicate of diagnostic %s covered in step %s, scores(%f/%f)", $dsid1, $step1, s1, s2  );
+            insertLogical(new AdjustScore($step2, -10000.0, msg));
+        } else {
+            String msg= String.format("Duplicate of diagnostic %s covered in step %s, scores(%f/%f)", $dsid1, $step2, s2, s1  );
+            insertLogical(new AdjustScore($step1, -10000.0, msg));
+        }
 end
 
 
@@ -152,7 +166,7 @@ rule "Add Rationality Adjustment"
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Rationality )
         PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
-        insertLogical( new AdjustScore($stepId, 5.0, "DTC is " + $class) );
+        insertLogical( new AdjustScore($stepId, 1000.0, "DTC is " + $class) );
 end
         
 rule "Add Plausibility Adjustment"
@@ -161,7 +175,7 @@ rule "Add Plausibility Adjustment"
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Plausibility )
         PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
-        insertLogical( new AdjustScore($stepId, 4.0, "DTC is " + $class) );
+        insertLogical( new AdjustScore($stepId, 700.0, "DTC is " + $class) );
 end
 
 
@@ -171,7 +185,7 @@ rule "Add Communication Adjustment"
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Communication )
         PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
-        insertLogical( new AdjustScore($stepId, 3.0, "DTC is " + $class) );
+        insertLogical( new AdjustScore($stepId, 400.0, "DTC is " + $class) );
 end
 
 rule "Add Event Adjustment"
@@ -180,5 +194,5 @@ rule "Add Event Adjustment"
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Event )
         PossibleStep( dtc == $dtc, $stepId:stepId  )
     then
-        insertLogical( new AdjustScore($stepId, 2.0, "DTC is " + $class) );
+        insertLogical( new AdjustScore($stepId, 1.0, "DTC is " + $class) );
 end

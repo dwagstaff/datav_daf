@@ -46,6 +46,20 @@ public class DiagnosticJobToStep {
 	public void setStepId(String stepId) {
 		this.stepId = stepId;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DiagnosticJobToStep [");
+		if (diagnosticID != null)
+			builder.append("diagnosticID=").append(diagnosticID).append(", ");
+		if (stepId != null)
+			builder.append("stepId=").append(stepId);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 }
