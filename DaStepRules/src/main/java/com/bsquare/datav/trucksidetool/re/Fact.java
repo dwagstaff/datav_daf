@@ -1,5 +1,7 @@
 package com.bsquare.datav.trucksidetool.re;
 
+import java.util.Date;
+
 public class Fact implements BaseFact {
 	
 	private String factId;
@@ -13,6 +15,10 @@ public class Fact implements BaseFact {
 	private Double probability;
     private String stepId;
 	private String stepAnswer;
+	private Date firstDate;
+	private Date lastDate;
+	private Double duration;
+	
 	
 	
 	public Fact() {
@@ -164,6 +170,48 @@ public class Fact implements BaseFact {
 	 */
 	public void setStepAnswer(String stepAnswer) {
 		this.stepAnswer = stepAnswer;
+	}
+
+    /**
+     * @return the firstDate
+     */
+    public Date getFirstDate() {
+        return firstDate;
+    }
+
+    /**
+     * @param firstDate the firstDate to set
+     */
+    public void setFirstDate(Date firstDate) {
+        this.firstDate = firstDate;
+    }
+
+    /**
+     * @return the lastDate
+     */
+    public Date getLastDate() {
+        return lastDate;
+    }
+
+    /**
+     * @param lastDate the lastDate to set
+     */
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+    }
+
+	/**
+	 * @return the duration
+	 */
+	public Double getDuration() {
+		return duration;
+	}
+
+	/**
+	 * @param duration the duration to set
+	 */
+	public void setDuration(Double duration) {
+		this.duration = duration;
 	}
 
 

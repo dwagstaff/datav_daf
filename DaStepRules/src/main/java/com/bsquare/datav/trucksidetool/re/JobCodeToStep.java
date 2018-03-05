@@ -12,6 +12,7 @@ public class JobCodeToStep {
     private String stepId;
     
     
+    
 
 
     /**
@@ -55,5 +56,6 @@ public class JobCodeToStep {
     public void setStepId(String stepId) {
         this.stepId = stepId;
     }
+
 
 }

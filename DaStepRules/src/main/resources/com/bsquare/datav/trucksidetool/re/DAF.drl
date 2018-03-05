@@ -1,5 +1,106 @@
 package com.bsquare.datav.trucksidetool.re;
+import java.util.ArrayList;
+import com.bsquare.datav.trucksidetool.re.EYesNo;
+import com.bsquare.datav.trucksidetool.re.PredictedJobCode;
+import com.bsquare.datav.trucksidetool.re.AdjustScore;
 
+
+// This fact is inserted if an E-CAN bus fault is detected
+declare ECAN_Error
+end
+
+
+rule "Standard Fuel High Press Projected Code"
+    when
+        PredictedJobCode( probableCauseId == "H 1410 000000 001 202" )
+        DTC( symptomId == "P0093" ||== "P0094" ||== "P00BA" ||== "P228D" )
+    then
+        insertLogical(new AdjustScore("P0094/1A", 100000.0, "Standard Fuel High Press. Projected Test") );
+end
+
+rule "P1091 Standard Fuel High Press Projected Code"
+    when
+        PredictedJobCode( probableCauseId == "H 1410 000000 001 202" )
+        DTC( symptomId == "P1091" )
+    then
+        insertLogical(new AdjustScore("P1091/2A", 100000.0, "P1091 Fuel High Press. Projected Test") );
+end
+
+
+
+// Assert that there is an E-CAN bus error if if an E-CAN bus fault is detected
+rule "Assert that there is an E-CAN bus error"
+    when
+        DTC( symptomId == "U1011" ||== "U1013")
+        not ECAN_Error()
+    then
+        insert( new ECAN_Error() );
+end
+
+// Rule to set Rest DTC steps to 0
+rule "Set DTC Reset step to zero score"
+    when
+        DiagnosticJobToStep($stepID: stepId, diagnosticID == "H 1444 430226 072 000" )
+        PossibleStep(stepId == $stepID  )
+    then
+        insert( new SetAbsoluteScore($stepID, "DTC Reset operation, set score to zero", 0.0) );
+        insert( new AdjustScore($stepID, 0.00, "Set score to zero for Reset DTC/Validation step") );
+end
+
+
+
+// Ignore inactive P1020 or P1482
+rule "Ignore inactive P1020 or P1482"
+    when
+        DTC( $dtc: symptomId,  symptomId == "P1020" ||== "P1482", active == EYesNo.No )
+        PossibleStep( $stepID: stepId,  dtc == $dtc )
+    then
+        insertLogical( new AdjustScore($stepID, -100000.0, "Inactive P1020 or P1482") );
+end
+
+
+// If active P1020, then promote step P1020/3A
+rule "If active P1020, then promote step P1020/3A"
+    when
+        DTC( $dtc: symptomId,  symptomId == "P1020" , active == EYesNo.Yes )
+    then
+        insertLogical( new AdjustScore("P1020/3A", 100000.0, "Active P1020") );
+end
+
+// If active P1482, then promote step P1482/2A
+rule "If active P1482, then promote step P1482/2A"
+    when
+        DTC( $dtc: symptomId,  symptomId == "P1482" , active == EYesNo.Yes )
+    then
+        insertLogical( new AdjustScore("P482/2A", 100000.0, "Active P1482") );
+end
+
+// AutoStep: P1020 Step 1A
+rule "AutoStep: P1020 Step 1A"
+    when
+        $ps: PossibleStep( $stepID:stepId,  stepId == "P1020/1A" )
+        ArrayList( $size: size) from collect( ECAN_Error() )
+    then
+        insertLogical( new StepPerformed($ps.getStepId(), $size > 0 ? EYesNo.Yes : EYesNo.No) );
+end
+
+// AutoStep: P0094 Step 2A
+rule "AutoStep(Yes): P0094 Step 2A"
+    when
+        $ps: PossibleStep( $stepID:stepId,  stepId == "P0094/2A" )
+        DTC( symptomId == "P0087" ||== "P1087" )
+    then
+        insertLogical( new StepPerformed("P0094/2A",  EYesNo.Yes) );
+end
+
+// AutoStep: P0094 Step 2A
+rule "AutoStep(No): P0094 Step 2A"
+    when
+        $ps: PossibleStep( $stepID:stepId,  stepId == "P0094/2A" )
+        not DTC( symptomId == "P0087" ||== "P1087" )
+    then
+        insertLogical( new StepPerformed("P0094/2A",  EYesNo.No) );
+end
 
  //If P1086 is present icw one of: P0093, P0094, P00BA, P1091, P228D, give P1086 a lower priority       
  rule "If P1086 is present icw one of: P0093, P0094, P00BA, P1091, P228D, give P1086 a lower priority"

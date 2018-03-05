@@ -5,6 +5,15 @@ import com.bsquare.datav.trucksidetool.re.DTC;
 import com.bsquare.datav.trucksidetool.re.DtcClassification;
 import com.bsquare.datav.trucksidetool.re.AdjustScore;
 import com.bsquare.datav.trucksidetool.re.StepPerformed;
+import com.bsquare.datav.trucksidetool.re.DiagnosticTime;
+
+// This fact will set an absolute score on a PossibleStep
+declare SetAbsoluteScore
+    stepID: String
+    reason: String
+    value: double
+end
+
 
 
 
@@ -28,6 +37,17 @@ query "StepOrderQuery"
 end
 
 
+rule "Update Diag. Times on Possible Step"
+    no-loop 
+    when
+        $ps: PossibleStep( $stepID: stepId  )
+        DiagnosticTime( stepId == $stepID, $time:diagTime  )
+    then
+        modify($ps) {
+            setDuration($time);
+        }
+end
+
 
 // Convert any Strings into a Conclusion
 rule "Convert Strings into Conclusions"
@@ -36,6 +56,20 @@ rule "Convert Strings into Conclusions"
     then
         insert(new Conclusion($s));
 end
+
+// Set Score to an absolute value
+rule "Set Step Scores to absolute value"
+    salience -20
+    when
+        SetAbsoluteScore($stepID: stepID, $reason: reason, $value: value)
+        $ps: PossibleStep( stepId == $stepID  )
+    then
+        modify($ps) {
+            setScore($value);
+        }
+end
+    
+
 
 // If there are not steps with score greater then 0
 // insert a No Steps Available step
@@ -100,13 +134,13 @@ rule "Adjust Cause Job Code Diagnostics"
         $ps:   PossibleStep(stepId == $stepId)
     then
         String msg= String.format("Prescribed by job code %s", $jcid);        
-        insertLogical(new AdjustScore($stepId, 1000.0 * $jc.getProbability(), msg));
+        insertLogical(new AdjustScore($stepId, 100000.0 * $jc.getProbability(), msg));
 end
 
 
 
 // Lower score of steps which diagnose the same issue
-rule "Same diagnostic"
+rule "Same diagnostic (Duplicate Step)"
     salience -50
     when
         $ps1: PossibleStep( $step1: stepId )
@@ -118,10 +152,12 @@ rule "Same diagnostic"
         double s2= $ps2.getScore();
         if( s2 < s1 ) {
             String msg= String.format("Duplicate of diagnostic %s covered in step %s, scores(%f/%f)", $dsid1, $step1, s1, s2  );
-            insertLogical(new AdjustScore($step2, -10000.0, msg));
+            insertLogical(new AdjustScore($step2,0.0, msg));
+            insert( new SetAbsoluteScore($step2, "Duplicate step, set score to zero", -1.0) );
         } else {
             String msg= String.format("Duplicate of diagnostic %s covered in step %s, scores(%f/%f)", $dsid1, $step2, s2, s1  );
-            insertLogical(new AdjustScore($step1, -10000.0, msg));
+            insertLogical(new AdjustScore($step1, 0.0, msg));
+            insert( new SetAbsoluteScore($step1, "Duplicate step, set score to zero", -1.0) );
         }
 end
 
@@ -131,6 +167,7 @@ rule "Adjust Step Scores"
     no-loop 
     when
         AdjustScore( $stepId:stepId, $adjustment:adjustment   )
+        not SetAbsoluteScore(stepID == $stepId)
         $ps: PossibleStep( stepId == $stepId, $currentScore:score  )
     then
         modify($ps) {
@@ -144,10 +181,8 @@ rule "Rule Completed"
         StepPerformed( $stepID: stepId  )
         $ps: PossibleStep( stepId == $stepID, score > 0.0  )
     then
-        modify($ps) {
-            setScore(-1.0);
-        };
-        insert(new AdjustScore($stepID, -100000.0, "Step Performed"));
+        insert(new AdjustScore($stepID, 0.0 , "Step Performed"));
+        insert( new SetAbsoluteScore($stepID, "Step Performed", -1.0) );
 end
 
 
@@ -164,7 +199,7 @@ rule "Add Rationality Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Rationality )
-        PossibleStep( dtc == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId, created==false  )
     then
         insertLogical( new AdjustScore($stepId, 1000.0, "DTC is " + $class) );
 end
@@ -173,7 +208,7 @@ rule "Add Plausibility Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Plausibility )
-        PossibleStep( dtc == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId, created==false  )
     then
         insertLogical( new AdjustScore($stepId, 700.0, "DTC is " + $class) );
 end
@@ -183,7 +218,7 @@ rule "Add Communication Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Communication )
-        PossibleStep( dtc == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId, created==false  )
     then
         insertLogical( new AdjustScore($stepId, 400.0, "DTC is " + $class) );
 end
@@ -192,7 +227,7 @@ rule "Add Event Adjustment"
     when
         DTC( $dtc:symptomId  )
         DtcClassification(dtc == $dtc, $class:classification, classification == Classification.Event )
-        PossibleStep( dtc == $dtc, $stepId:stepId  )
+        PossibleStep( dtc == $dtc, $stepId:stepId, created==false  )
     then
         insertLogical( new AdjustScore($stepId, 1.0, "DTC is " + $class) );
 end

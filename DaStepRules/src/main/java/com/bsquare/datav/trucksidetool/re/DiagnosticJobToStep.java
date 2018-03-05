@@ -10,6 +10,8 @@ package com.bsquare.datav.trucksidetool.re;
 public class DiagnosticJobToStep {
 	private String diagnosticID;
 	private String stepId;
+	private Double diagTime;
+	
 	
 	
 	
@@ -17,10 +19,11 @@ public class DiagnosticJobToStep {
 	 * @param diagnosticID
 	 * @param stepId
 	 */
-	public DiagnosticJobToStep(String diagnosticID, String stepId) {
+	public DiagnosticJobToStep(String diagnosticID, String stepId, Double diagTime) {
 		super();
 		this.diagnosticID = diagnosticID;
 		this.stepId = stepId;
+		this.diagTime= diagTime;
 	}
 	/**
 	 * @return the diagnosticID
@@ -59,6 +62,18 @@ public class DiagnosticJobToStep {
 			builder.append("stepId=").append(stepId);
 		builder.append("]");
 		return builder.toString();
+	}
+	/**
+	 * @return the diagTime
+	 */
+	public Double getDiagTime() {
+		return diagTime;
+	}
+	/**
+	 * @param diagTime the diagTime to set
+	 */
+	public void setDiagTime(Double diagTime) {
+		this.diagTime = diagTime;
 	}
 	
 	

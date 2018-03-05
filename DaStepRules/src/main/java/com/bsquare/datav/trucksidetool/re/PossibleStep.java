@@ -17,6 +17,8 @@ public class PossibleStep  implements BaseStep, Serializable {
     private Double score;
     private String stepAnswer;
     private String diagnosticJobCode;
+    private Double duration;
+    
     
     
 	public PossibleStep() {
@@ -141,4 +143,28 @@ public class PossibleStep  implements BaseStep, Serializable {
         this.diagnosticJobCode = diagnosticJobCode;
     }
 	
+    /**
+     * Return if this is a 'Created' step
+     * @return true - is a created step
+     *         false - is not a created step
+     */
+    public boolean getCreated() {
+        return getStepId().endsWith("-YES") || getStepId().endsWith("-NO");
+    }
+
+	/**
+	 * @return the duration
+	 */
+	public Double getDuration() {
+		return duration;
+	}
+
+	/**
+	 * @param duration the duration to set
+	 */
+	public void setDuration(Double duration) {
+		this.duration = duration;
+	}
+
+
 }

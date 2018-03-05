@@ -1,5 +1,7 @@
 package com.bsquare.datav.trucksidetool.re;
 
+import java.util.Date;
+
 public class DTC implements BaseFact, FactSource { 
 	/**
 	 * 
@@ -8,6 +10,9 @@ public class DTC implements BaseFact, FactSource {
 	private String title;
 	private EYesNo active;
 	private Integer occurrence;
+	private Date firstDate;
+	private Date lastDate;
+	
 		
 	public DTC() {
 		setActive(EYesNo.Yes);
@@ -109,4 +114,36 @@ public class DTC implements BaseFact, FactSource {
 	public String getDescription() {
 		return title;
 	}
+
+
+    /**
+     * @return the firstDate
+     */
+    public Date getFirstDate() {
+        return firstDate;
+    }
+
+
+    /**
+     * @param firstDate the firstDate to set
+     */
+    public void setFirstDate(Date firstDate) {
+        this.firstDate = firstDate;
+    }
+
+
+    /**
+     * @return the lastDate
+     */
+    public Date getLastDate() {
+        return lastDate;
+    }
+
+
+    /**
+     * @param lastDate the lastDate to set
+     */
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+    }
 }
